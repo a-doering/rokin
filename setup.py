@@ -11,13 +11,13 @@ with open("docs/README.md", "r") as fh:
 
 def _run(self):
     directory = os.path.split(__file__)[0]
-
     robot_list = ['Justin19', 'JustinArm07', 'JustinFinger03', 'JustinHand12', 'JustinHand12Cal']
     for robot in robot_list:
         for i in range(10):
             print()
         print(directory)
-        subprocess.call(f"cd {directory}/rokin/Robots/{robot}/cpp; python setup.py develop", shell=True)
+        print(os.listdir(f'/volume/USERSTORE/tenh_jo/Software/miniconda3/envs/py38test/lib/python3.8/site-packages/rokin/Robots/{robot}/cpp/'))
+        # subprocess.call(f"cd {directory}/rokin/Robots/{robot}/cpp; python setup.py develop", shell=True)
 
 
 class CompileRobotsInstall(install):
