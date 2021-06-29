@@ -48,6 +48,7 @@ setup(
     packages=find_packages(),
 
     install_requires=['numpy',
+                      'sympy',
                       # 'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
                       ],
     classifiers=[

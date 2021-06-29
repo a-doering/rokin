@@ -5,7 +5,8 @@
 ---
 # Dependencies
 
-* [eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page)
+* [eigen](https://gitlab.com/libeigen/eigen)
+* [sympy](https://github.com/sympy/sympy) 
 * [wzk](https://github.com/scleronomic/WerkZeugKasten)
 
 # Installation
