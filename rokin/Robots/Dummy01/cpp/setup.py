@@ -1,3 +1,4 @@
+import os
 from setuptools import Extension, setup
 
 eigen_include_dir = os.environ.get("EIGEN_INCLUDE_DIR",                                  # either user-defined
