@@ -10,6 +10,7 @@ with open("docs/README.md", "r") as fh:
 
 
 def _run(self):
+    install.run(self)
     directory = os.path.split(__file__)[0]
 
     robot_list = ['Justin19', 'JustinArm07', 'JustinFinger03', 'JustinHand12', 'JustinHand12Cal']
