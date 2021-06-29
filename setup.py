@@ -48,5 +48,4 @@ setup(
     ],
     cmdclass={'install': InstallLocalPackage,
               'develop': InstallLocalPackage}
-
 )
