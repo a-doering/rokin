@@ -14,6 +14,9 @@ def _run(self):
 
     robot_list = ['Justin19', 'JustinArm07', 'JustinFinger03', 'JustinHand12', 'JustinHand12Cal']
     for robot in robot_list:
+        for i in range(10):
+            print()
+        print(directory)
         subprocess.call(f"cd {directory}/rokin/Robots/{robot}/cpp; python setup.py develop", shell=True)
 
 
