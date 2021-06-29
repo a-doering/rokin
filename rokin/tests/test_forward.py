@@ -1,7 +1,8 @@
 import unittest
 import platform
 
-from mopla.parameter import str2robot
+from rokin.forward import *
+from rokin.util import str2robot
 
 from wzk import (numeric_derivative, tic, toc,
                  new_fig, save_fig,
@@ -9,28 +10,35 @@ from wzk import (numeric_derivative, tic, toc,
 
 
 if platform.system() == 'Linux':
-    from rokin.Kinematic.Robots.Justin19_wolfram import justin19 as justin19_wolfram
+    from rokin.Robots.Justin19_wolfram import justin19 as justin19_wolfram
 else:
     justin19_wolfram = None
 
-robot_ids = ['SingleSphere02', 'SingleSphere03',
+robot_ids = ['JustinHand12', 'SingleSphere02', 'SingleSphere03',
              'StaticArm02', 'StaticArm07',
              'MovingArm01', 'MovingArm06',
-             'Justin19', 'JustinBase03', 'JustinFinger03', 'JustinArm07']
+             'Justin19', 'JustinArm07',
+             'JustinBase03', 'JustinBase05',
+             'JustinFinger03',
+             'JustinHand12']
 
 eps = 1e-5
-verbose = 2
+verbose = 5
 
 
 class Test(unittest.TestCase):
 
     def __test_get_frames_jac(self, robot_id):
         robot = str2robot(robot_id)
-        q = sample_q(robot=robot, mode='random2')
-
+        q = sample_q(robot=robot, mode='random')
+        print(robot_id)
         grad_numeric = numeric_derivative(fun=get_frames, x=q, robot=robot,
                                           axis=-1, eps=eps)
         grad_analytic = get_frames_jac(q=q, robot=robot)[1]
+        # d = compare_arrays(grad_numeric, grad_analytic, axis=(-4, -1), verbose=verbose-1)
+        # d1 = compare_arrays(grad_numeric*2, grad_analytic, axis=(-4, -1), verbose=verbose-1)
+        print(np.round(grad_analytic[0, :10, :, :, 0], 2))
+        print(np.round(grad_numeric[0, :10, :, :, 0], 2))
         self.assertTrue(compare_arrays(a=grad_numeric, b=grad_analytic, axis=(-4, -1),
                                        title='Frames ' + robot.id, verbose=verbose-1))
 
@@ -104,19 +112,19 @@ class Test(unittest.TestCase):
             tic()
             for _ in range(m):
                 f_cython = justin19_wolfram.get_frames(q=q[:n], f_world_robot=robot.f_world_robot)
-            time_frames_cython.append(toc(message=''))
+            time_frames_cython.append(toc(name=''))
             tic()
             for _ in range(m):
                 f = get_frames(q=q[:n], robot=robot)
-            time_frames_numpy.append(toc(message=''))
+            time_frames_numpy.append(toc(name=''))
             tic()
             for _ in range(m):
                 j_cython = justin19_wolfram.get_frames_jac(q=q[:n], f_world_robot=robot.f_world_robot)[1]
-            time_jac_cython.append(toc(message=''))
+            time_jac_cython.append(toc(name=''))
             tic()
             for _ in range(m):
                 j = get_frames_jac(q=q[:n], robot=robot)[1]
-            time_jac_numpy.append(toc(message=''))
+            time_jac_numpy.append(toc(name=''))
 
             if assert_equal:
                 self.assertTrue(compare_arrays(a=f_cython, b=f, title='Justin Cython Frames', axis=(2,)))

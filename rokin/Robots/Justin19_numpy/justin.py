@@ -1,6 +1,6 @@
 import numpy as np
 
-from mopla.Justin import parameter_torso as jtp
+from rokin.Robots.Justin19 import justin19_par as jtp
 from wzk import slice_add, range2slice
 
 IDX_F_TORSO_WO_BASE = slice(jtp.IDX_F_TORSO.start + 1, jtp.IDX_F_TORSO.stop, 1)  # 4
@@ -597,7 +597,7 @@ def speed_test():
             # a[..., 0, 1] = 0.3
             # a[..., 0, 2] = 0.3
             # a[..., 0, 3] = 0.3
-        time_element.append(toc(message=''))
+        time_element.append(toc(name=''))
 
         tic()
         for i in range(m):
@@ -609,7 +609,7 @@ def speed_test():
                                      [0, 1.1, 0, 0],
                                      [0, 0, 2.2, 2.3],
                                      [0, 0, 3.2, 3.3]])
-        time_array.append(toc(message=''))
+        time_array.append(toc(name=''))
 
     # Finding for 8+ elements it is faster to use an array to assign all at once
     #  for an array sizes 500-1000+ (x4x4) it is faster to use an array
@@ -625,4 +625,3 @@ def speed_test():
 
 if __name__ == '__main__':
     speed_test()
-

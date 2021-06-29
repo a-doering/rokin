@@ -1,15 +1,15 @@
 import numpy as np
 from wzk.spatial.transform import trans_rotvec2frame
 
-from rokin.Kinematic.Robots import Robot
-from rokin.Kinematic.dh import frame_from_dh
-from rokin.Kinematic import chain as kc
-from mopla.SelfCollision import get_capsules_info
+from rokin import dh, chain
+from rokin.Robots import Robot
+from rokin.SelfCollision.capsules import get_capsules_info
 
 try:
-    # noinspection PyUnresolvedReferences,PyPep8Naming
-    from rokin.Kinematic.Robots.JustinFinger03.cpp import JustinFinger03 as cpp
+    from rokin.Robots.JustinFinger03.cpp import JustinFinger03 as cpp  # noqa
 except ModuleNotFoundError:
+    cpp = None
+except ImportError:
     cpp = None
 
 
@@ -36,14 +36,11 @@ class JustinFinger03(Robot):
 
         self.next_frame_idx = np.array([1, 2, 3, 4, 5, -1])
         self.joint_frame_idx = np.array([1, 2, [3, 4]], dtype='object')
-        self.prev_frame_idx = kc.next2prev_frame_idx(self.next_frame_idx)
-        self.frame_frame_influence = kc.next_frame_idx2influence_frames_frames(nfi=self.next_frame_idx)
-        self.joint_frame_influence = kc.influence_frames_frames2joints_frames(jfi=self.joint_frame_idx,
-                                                                              iff=self.frame_frame_influence,
-                                                                              nfi=self.next_frame_idx)
+        chain.complete_chain_parameters(robot=self)
+
         self.f_static = np.zeros((2, 4, 4,))
         self.f_static[0] = np.eye(4)
-        self.f_static[1] = frame_from_dh(q=0, d=0.029, theta=np.pi, a=0, alpha=-np.pi/2)
+        self.f_static[1] = dh.frame_from_dh(q=0, d=0.029, theta=np.pi, a=0, alpha=-np.pi/2)
         self.f_idx_static = np.array([0, 5])
         self.joint_frame_idx_dh = np.array([1, 2, 3, 4])
         self.coupled_passive_joints = {3: lambda q: q[2]}

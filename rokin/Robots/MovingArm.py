@@ -1,11 +1,11 @@
 import numpy as np
 
-from rokin.Kinematic import forward
+from rokin import forward
 
-from rokin.Kinematic.Robots import Robot
-from rokin.Kinematic.Robots.SingleSphere import _fill_frames_jac__dx
-from rokin.Kinematic.Robots.StaticArm import (_fill_frames, _fill_frames_jac, fill_frames_2d_sc,
-                                              get_arm2d_spheres, _init_serial_kinematic)
+from rokin.Robots import Robot
+from rokin.Robots.SingleSphere import _fill_frames_jac__dx
+from rokin.Robots.StaticArm import (_fill_frames, _fill_frames_jac, fill_frames_2d_sc,
+                                    get_arm2d_spheres, _init_serial_kinematic)
 
 from wzk import safe_scalar2array, apply_eye_wrapper
 
@@ -49,11 +49,7 @@ class MovingArm(Robot):
         x, q = self.q2x_q(xq=q)
         f = self._init_f(shape=q.shape, mode='hm')
         sin, cos = np.sin(q), np.cos(q)
-
-        _fill_frames(f=f,
-                     sin=sin, cos=cos,
-                     limb_lengths=self.limb_lengths)
-
+        _fill_frames(f=f, sin=sin, cos=cos, limb_lengths=self.limb_lengths)
         forward.combine_frames(f=f, prev_frame_idx=self.prev_frame_idx)
         f[..., :-1, -1] += x[..., np.newaxis, :]
         f = apply_eye_wrapper(f=f, possible_eye=self.f_world_robot)

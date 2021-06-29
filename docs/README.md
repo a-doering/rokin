@@ -1,6 +1,6 @@
 
 
-![Kink Logo](docs/rokin.png)
+![rokin logo](rokin.png)
 
 # Fast Forward Kinematic in C++
 
@@ -8,7 +8,7 @@
 
 * [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page)
 
-# How to use excisting robots
+# How to use existing robots
 
 * TODO
 

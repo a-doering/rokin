@@ -1,6 +1,8 @@
 from unittest import TestCase
 from wzk.time import tic, toc
 
+from rokin.chain import *
+
 
 class Test(TestCase):
     def test_prev2next_frame_idx(self):

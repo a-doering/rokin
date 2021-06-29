@@ -2,14 +2,15 @@ import numpy as np
 from wzk.spatial import trans_rotvec2frame
 from wzk.numpy2 import tile_offset
 
-import rokin.Kinematic.chain as kc
-from rokin.Kinematic.dh import frame_from_dh
-from rokin.Kinematic.Robots import Robot, JustinFinger03
+from rokin import dh, chain
+from rokin.Robots import Robot, JustinFinger03
 
 try:
     # noinspection PyUnresolvedReferences,PyPep8Naming
-    from rokin.Kinematic.Robots.JustinHand12.cpp import JustinHand12 as cpp
+    from rokin.Robots.JustinHand12.cpp import JustinHand12 as cpp
 except ModuleNotFoundError:
+    cpp = None
+except ImportError:
     cpp = None
 
 _finger03 = JustinFinger03()
@@ -30,21 +31,17 @@ class JustinHand12(Robot):
         # Kinematic Chain
         self.dh = np.tile(_finger03.dh, reps=(4, 1))
 
-        self.next_frame_idx = kc.combine_chains(nfi_list=[_finger03.next_frame_idx]*4, mode='base')
-        self.next_frame_idx = kc._combine_chains_end(nfi_a=np.array([-1]), nfi_b=self.next_frame_idx, i=0)
+        self.next_frame_idx = chain.combine_chains(nfi_list=[_finger03.next_frame_idx]*4, mode='base')
+        self.next_frame_idx = chain.combine_chains_end(nfi_a=np.array([-1]), nfi_b=self.next_frame_idx, i=0)
         self.joint_frame_idx = np.array([1, 2, [3, 4],
                                          7, 8, [9, 10],
                                          13, 14, [15, 16],
                                          19, 20, [21, 22]], dtype='object')
+        chain.complete_chain_parameters(robot=self)
 
-        self.prev_frame_idx = kc.next2prev_frame_idx(self.next_frame_idx)
-        self.frame_frame_influence = kc.next_frame_idx2influence_frames_frames(nfi=self.next_frame_idx)
-        self.joint_frame_influence = kc.influence_frames_frames2joints_frames(jfi=self.joint_frame_idx,
-                                                                              iff=self.frame_frame_influence,
-                                                                              nfi=self.next_frame_idx)
         self.f_static = np.zeros((9, 4, 4))
         self.f_static[0] = np.eye(4)
-        self.f_static[2::2] = frame_from_dh(q=0, d=0.029, theta=np.pi, a=0, alpha=-np.pi/2)[np.newaxis, :, :]
+        self.f_static[2::2] = dh.frame_from_dh(q=0, d=0.029, theta=np.pi, a=0, alpha=-np.pi/2)[np.newaxis, :, :]
 
         # Note the inverted ordering: ring, middle, fore, thumb
         # Ring

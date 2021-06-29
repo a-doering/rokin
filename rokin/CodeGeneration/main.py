@@ -1,8 +1,8 @@
-from mopla.definitions import PROJECT_ROOT
-from rokin.Kinematic.CodeGeneration import symbolic
-from rokin.Kinematic.CodeGeneration import code_generation, code_stubs
-
+import os
 from wzk import safe_create_dir, str2file
+
+from rokin.CodeGeneration import symbolic
+from rokin.CodeGeneration import code_generation, code_stubs
 
 
 def main(robot, dh_mode='fix'):
@@ -20,7 +20,7 @@ def main(robot, dh_mode='fix'):
     s_create_d = code_generation.combine_dict_str(nfi=robot.next_frame_idx)
     s_combine_j = code_generation.combine_jacs_str(nfi=robot.next_frame_idx, joint_frame_idx=robot.joint_frame_idx)
 
-    setup_py = code_stubs.get_setup_py(robot_id=robot.id, eigen=eigen)
+    setup_py = code_stubs.get_setup_py(robot_id=robot.id)
     topy_cpp = code_stubs.get_topy_cpp(robot_id=robot.id)
     robot_h = code_stubs.get_robot_h(robot=robot)
     robot_cpp = code_stubs.get_robot_cpp(robot=robot, s_fj=s_fj,
@@ -34,13 +34,11 @@ def main(robot, dh_mode='fix'):
 
 
 if __name__ == '__main__':
-    from rokin.Kinematic.Robots import JustinHand12Cal
+    from rokin.Robots import JustinArm07
+    _robot = JustinArm07()
 
-    eigen = '/Users/jote/Documents/Code/Software/C/eigen-3.3.7/'
-    # _robot = JustinHand12()
-    _robot = JustinHand12Cal()
-    # robot = JustinArm07()
-    # robot = Justin19()
-    # robot = Dummy01()
-    directory = PROJECT_ROOT + f'/Kinematic/Robots/cpp/{_robot.id}/'
+    directory = os.path.split(__file__)[0] + f'/../Robots/{_robot.id}/cpp'
+    directory = os.path.normpath(directory)
+
     main(robot=_robot)
+    print(f"Successfully generated C++ code for the robot {_robot.id} in the directory {directory}")

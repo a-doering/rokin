@@ -1,7 +1,3 @@
-
-#include <cmath>
-#include <Eigen/Dense>
-
 #include "JustinFinger03.h"
 
 
@@ -76,8 +72,8 @@ inline void fill_frames(FRAMES& f, JOINTS& q){
             std::sin(q[2]), std::cos(q[2]), 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1;
-    f(4) << std::sin(q[2]), std::cos(q[2]), 0, 0.04,
-            -std::cos(q[2]), std::sin(q[2]), 0, 0,
+    f(4) << std::cos(q[2] - 0.5*pi), std::cos(q[2]), 0, 0.04,
+            std::sin(q[2] - 0.5*pi), std::cos(q[2] - 0.5*pi), 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1;
     f(5) << -1., 0, 0, 0,
@@ -160,7 +156,7 @@ inline void _fill_jac(JACS& j, JOINTS& q){
                0, 0, 0, 0,
                0, 0, 0, 0;
     j(2, 4) << std::cos(q[2]), -std::sin(q[2]), 0, 0,
-               std::sin(q[2]), std::cos(q[2]), 0, 0,
+               std::cos(q[2] - 0.5*pi), std::cos(q[2]), 0, 0,
                0, 0, 0, 0,
                0, 0, 0, 0;
     

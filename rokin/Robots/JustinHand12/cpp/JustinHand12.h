@@ -4,6 +4,8 @@
 #include <cmath>
 #include <Eigen/Dense>
 
+const double pi = 3.141592653589793;
+
 const int N_JOINTS = 12;
 const int N_FRAMES = 25;
 const int N_DH = 16;

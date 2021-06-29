@@ -1,41 +1,53 @@
 import numpy as np
 
-from rokin.Kinematic import forward
-from mopla.Optimizer.path import inf_joint_wrapper
+from rokin import forward
+
+from wzk.math2 import angle2minuspi_pluspi
 from wzk.random2 import random_uniform_ndim
 from wzk.spatial.transform import initialize_frames, apply_eye_wrapper
+
 _cpp_order = 'c'
 _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
 
 
 class Robot(object):
     __slots__ = ('id',                     # str                       | Unique name of the robot
-                 'n_dof',                  # int                       | Degrees of freedom
-                 'n_dim',                  # int                       | Number of spacial dimensions, 2D/3D
+                 'n_dof',                  # int                       | Degrees of Freedom (dof)
+                 'n_dim',                  # int                       | Spacial dimensions, 2D/3D
+                 'n_frames',               # int                       | n_frames >= n_dof
+                 'dh',                     # float[n_dof][4]           | DH parameters
                  'limits',                 # float[n_dof][2]           | (min, max) value for each dof
+                 'next_frame_idx',         # int[n_frames][?]          | List of Lists indicating the next frame(s)
+                 'prev_frame_idx',         # int[n_frames]             | Array indicating the previous frame
+                 #                                                     | Only provide one as they are redundant
+                 #                                                     | and the other is inferred automatically
+                 'joint_frame_idx',        # int[n_frames][?]          | List of Lists showing the leverage point
                  'infinity_joints',        # bool[n_dof]               | Array indicating which joints are limitless
                  'f_world_robot',          # float[n_dim+1][n_dim+1]   | Position base frame in the world
 
-                 'dh',                     # float[n_dof][4]           | DH parameters
-
-                 'spheres_rad',            # float[n_spheres]          |
-                 'spheres_pos',            # float[n_spheres][n_dim+1] | The homogeneous coordinates of each sphere
-                 #                                                     | with respect to its frame
-                 'spheres_f_idx',      # int[n_spheres]            | The frame in which each sphere is fixed
-                 'limb_lengths',           # float[n_frames-1]         | Length of each limb [m]
-
-                 'n_frames',               # int                       |
-                 'next_frame_idx',         # int[n_frames][?]          | List of Lists indicating the next frame(s)
-                 'prev_frame_idx',         # int[n_frames]             | Array indicating the previous frame
-                 'joint_frame_idx',        # int[n_frames][?]          | List of Lists showing the leverage point
-                 #                                                     | of each joint, (only necessary if coupled)
                  'joint_frame_influence',  # bool[n_dof][n_frames]     | Matrix showing the influence of each joint
                  'frame_frame_influence',  # bool[n_frames][n_frames]  | Matrix showing the influence of each frame
+
+                 # Sphere Model
+                 'spheres_rad',            # float[n_spheres]          | Ras
+                 'spheres_pos',            # float[n_spheres][n_dim+1] | The homogeneous coordinates of each sphere
+                 #                                                     | with respect to its frame
+                 'spheres_f_idx',          # int[n_spheres]            | The frame in which each sphere is fixed
+                 'limb_lengths',           # float[n_frames-1]         | Length of each limb [m]  # TODO use DH for 2D
+
                  '_cpp'                    # module                    | C++ functions to calculate forward kinematics
                  )
 
+    def __repr__(self):
+        return f"{self.id[:-2]}: {self.n_dof} dof, {self.n_frames} frames"
+
+    def inf_joint_wrapper(self, q):
+        if self.infinity_joints is not None and np.sum(self.infinity_joints) > 0:
+            q[..., self.infinity_joints] = angle2minuspi_pluspi(q[..., self.infinity_joints])
+        return q
+
     def prune_joints2limits(self, q):
-        q = inf_joint_wrapper(q, infinity_joints=self.infinity_joints)
+        q = self.inf_joint_wrapper(q)
         return np.clip(q, a_min=self.limits[:, 0], a_max=self.limits[:, 1])
 
     def get_frames(self, q):
@@ -88,6 +100,7 @@ class Robot(object):
 
     def _get_frames_jac_cpp(self, q):
         f, j = self._init_f_cpp(q.shape), self._init_j_cpp(q.shape)
+        print('AAAA')
         self._cpp.get_frames_jacs(frames=f, jacs=j, joints=self._2cpp(q), n=q[..., 0].size)
 
         return apply_eye_wrapper(f, self.f_world_robot), np.moveaxis(j, -4, -1)

@@ -1,5 +1,5 @@
 import numpy as np
-from rokin.Kinematic.Robots import Robot
+from rokin.Robots import Robot
 
 
 class SingleSphere(Robot):

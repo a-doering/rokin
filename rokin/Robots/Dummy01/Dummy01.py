@@ -1,6 +1,7 @@
 import numpy as np
-from rokin.Kinematic.Robots import Robot
-import rokin.Kinematic.chain as kc
+
+from rokin.Robots import Robot
+from rokin import chain
 
 try:
     # noinspection PyUnresolvedReferences,PyPep8Naming
@@ -26,12 +27,8 @@ class Dummy01(Robot):
         self.dh = np.array([[0, 0, 0, 0]])
 
         self.next_frame_idx = np.array([-1])
-        self.prev_frame_idx = np.array([-1])
         self.joint_frame_idx = np.array([0])
-        self.frame_frame_influence = kc.next_frame_idx2influence_frames_frames(nfi=self.next_frame_idx)
-        self.joint_frame_influence = kc.influence_frames_frames2joints_frames(jfi=self.joint_frame_idx,
-                                                                              iff=self.frame_frame_influence,
-                                                                              nfi=self.next_frame_idx)
+        chain.complete_chain_parameters(robot=self)
         self.f_static = None
         self.f_idx_static = np.array([])
 

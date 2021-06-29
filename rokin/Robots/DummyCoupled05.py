@@ -29,7 +29,3 @@ class DummyCoupled05:
 
         self.f_idx_static = None
         self.f_static = None
-
-
-# justin19 = Justin19()
-# justin19.get_frames(np.random.random((1, 19)))

@@ -8,7 +8,7 @@
     
 PyObject * get_frames_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
-    // initialize_spheres buffer for arguments
+    // initialize buffer for arguments
     PyObject * frames;
     PyObject * joints;
     int n;
@@ -42,7 +42,7 @@ PyObject * get_frames_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
 PyObject * get_frames_dh4_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
-    // initialize_spheres buffer for arguments
+    // initialize buffer for arguments
     PyObject * frames;
     PyObject * joints;
     PyObject * dh;
@@ -81,7 +81,7 @@ PyObject * get_frames_dh4_py(PyObject * self, PyObject * args, PyObject * kwargs
     
 PyObject * get_frames_dh4b_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
-    // initialize_spheres buffer for arguments
+    // initialize buffer for arguments
     PyObject * frames;
     PyObject * joints;
     PyObject * dh;
@@ -120,7 +120,7 @@ PyObject * get_frames_dh4b_py(PyObject * self, PyObject * args, PyObject * kwarg
     
 PyObject * get_frames_dh5b_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
-    // initialize_spheres buffer for arguments
+    // initialize buffer for arguments
     PyObject * frames;
     PyObject * joints;
     PyObject * dh;
@@ -159,7 +159,7 @@ PyObject * get_frames_dh5b_py(PyObject * self, PyObject * args, PyObject * kwarg
     
 PyObject * get_frames_jac_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
-    // initialize_spheres buffer for arguments
+    // initialize buffer for arguments
     PyObject * frames;
     PyObject * jacs;
     PyObject * joints;
@@ -200,7 +200,7 @@ PyObject * get_frames_jac_py(PyObject * self, PyObject * args, PyObject * kwargs
     
 PyObject * get_frames_jac_dh4_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
-    // initialize_spheres buffer for arguments
+    // initialize buffer for arguments
     PyObject * frames;
     PyObject * jacs;
     PyObject * joints;
@@ -246,7 +246,7 @@ PyObject * get_frames_jac_dh4_py(PyObject * self, PyObject * args, PyObject * kw
     
 PyObject * get_frames_jac_dh4b_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
-    // initialize_spheres buffer for arguments
+    // initialize buffer for arguments
     PyObject * frames;
     PyObject * jacs;
     PyObject * joints;
@@ -292,7 +292,7 @@ PyObject * get_frames_jac_dh4b_py(PyObject * self, PyObject * args, PyObject * k
     
 PyObject * get_frames_jac_dh5b_py(PyObject * self, PyObject * args, PyObject * kwargs) {
     
-    // initialize_spheres buffer for arguments
+    // initialize buffer for arguments
     PyObject * frames;
     PyObject * jacs;
     PyObject * joints;

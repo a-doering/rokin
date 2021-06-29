@@ -1,7 +1,3 @@
-
-#include <cmath>
-#include <Eigen/Dense>
-
 #include "Justin19.h"
 
 
@@ -68,7 +64,7 @@ inline void fill_frames(FRAMES& f, JOINTS& q){
             std::sin(q[0]), std::cos(q[0]), 0, 0,
             0, 0, 1, 0.10550,
             0, 0, 0, 1;
-    f(2) << std::sin(q[1]), std::cos(q[1]), 0, 0,
+    f(2) << std::cos(q[1] - 0.5*pi), std::cos(q[1]), 0, 0,
             0, 0, 1, 0,
             std::cos(q[1]), -std::sin(q[1]), 0, 0,
             0, 0, 0, 1;
@@ -92,7 +88,7 @@ inline void fill_frames(FRAMES& f, JOINTS& q){
             0, 0, -1, 0,
             std::sin(q[4]), std::cos(q[4]), 0, 0,
             0, 0, 0, 1;
-    f(8) << std::sin(q[5]), std::cos(q[5]), 0, 0,
+    f(8) << std::cos(q[5] - 0.5*pi), std::cos(q[5]), 0, 0,
             0, 0, 1, 0.4,
             std::cos(q[5]), -std::sin(q[5]), 0, 0,
             0, 0, 0, 1;
@@ -104,13 +100,13 @@ inline void fill_frames(FRAMES& f, JOINTS& q){
              0, 0, 1, 0.390,
              std::sin(q[7]), std::cos(q[7]), 0, 0,
              0, 0, 0, 1;
-    f(11) << -std::sin(q[8]), -std::cos(q[8]), 0, 0,
+    f(11) << std::cos(q[8] + 0.5*pi), -std::cos(q[8]), 0, 0,
              0, 0, -1, 0,
-             std::cos(q[8]), -std::sin(q[8]), 0, 0,
+             std::sin(q[8] + 0.5*pi), std::cos(q[8] + 0.5*pi), 0, 0,
              0, 0, 0, 1;
-    f(12) << std::sin(q[9]), std::cos(q[9]), 0, 0,
+    f(12) << std::cos(q[9] - 0.5*pi), std::cos(q[9]), 0, 0,
              0, 0, -1, 0,
-             -std::cos(q[9]), std::sin(q[9]), 0, 0,
+             std::sin(q[9] - 0.5*pi), std::cos(q[9] - 0.5*pi), 0, 0,
              0, 0, 0, 1;
     f(13) << -1., 0, 0, 0,
              0, 0, 1., 0.118,
@@ -128,7 +124,7 @@ inline void fill_frames(FRAMES& f, JOINTS& q){
              0, 0, -1, 0,
              std::sin(q[11]), std::cos(q[11]), 0, 0,
              0, 0, 0, 1;
-    f(17) << std::sin(q[12]), std::cos(q[12]), 0, 0,
+    f(17) << std::cos(q[12] - 0.5*pi), std::cos(q[12]), 0, 0,
              0, 0, 1, -0.4,
              std::cos(q[12]), -std::sin(q[12]), 0, 0,
              0, 0, 0, 1;
@@ -140,11 +136,11 @@ inline void fill_frames(FRAMES& f, JOINTS& q){
              0, 0, 1, -0.390,
              -std::sin(q[14]), -std::cos(q[14]), 0, 0,
              0, 0, 0, 1;
-    f(20) << -std::sin(q[15]), -std::cos(q[15]), 0, 0,
+    f(20) << std::cos(q[15] + 0.5*pi), -std::cos(q[15]), 0, 0,
              0, 0, 1, 0,
              -std::cos(q[15]), std::sin(q[15]), 0, 0,
              0, 0, 0, 1;
-    f(21) << std::sin(q[16]), std::cos(q[16]), 0, 0,
+    f(21) << std::cos(q[16] - 0.5*pi), std::cos(q[16]), 0, 0,
              0, 0, 1, 0,
              std::cos(q[16]), -std::sin(q[16]), 0, 0,
              0, 0, 0, 1;
@@ -441,11 +437,11 @@ inline void _fill_jac(JACS& j, JOINTS& q){
                 0, 0, 0, 0;
     j(8, 11) << -std::cos(q[8]), std::sin(q[8]), 0, 0,
                 0, 0, 0, 0,
-                -std::sin(q[8]), -std::cos(q[8]), 0, 0,
+                std::cos(q[8] + 0.5*pi), -std::cos(q[8]), 0, 0,
                 0, 0, 0, 0;
     j(9, 12) << std::cos(q[9]), -std::sin(q[9]), 0, 0,
                 0, 0, 0, 0,
-                std::sin(q[9]), std::cos(q[9]), 0, 0,
+                std::cos(q[9] - 0.5*pi), std::cos(q[9]), 0, 0,
                 0, 0, 0, 0;
     j(10, 15) << -std::sin(q[10]), -std::cos(q[10]), 0, 0,
                  -std::cos(q[10]), std::sin(q[10]), 0, 0,
@@ -1125,3 +1121,5 @@ void combine_dict(FRAMES& f, DICT& d){
     d(0, 26) = f(0) * d(1, 26);
     
 }
+
+    

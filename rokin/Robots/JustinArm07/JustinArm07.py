@@ -1,13 +1,13 @@
 import numpy as np
-from rokin.Kinematic.Robots import Robot
-import rokin.Kinematic.chain as kc
+from rokin.Robots import Robot
+from rokin import chain
 
-from mopla.Justin import parameter_torso as jpt
-from mopla.Justin.spheres import ARM_SPHERES_F_IDX, ARM_SPHERES_POS, ARM_SPHERES_RAD
+from rokin.Robots.Justin19 import justin19_par as jpt
+from rokin.Robots.Justin19.spheres import ARM_SPHERES_F_IDX, ARM_SPHERES_POS, ARM_SPHERES_RAD
 
 try:
     # noinspection PyUnresolvedReferences,PyPep8Naming
-    from rokin.Kinematic.Robots.JustinArm07.cpp import JustinArm07 as cpp
+    from rokin.Robots.JustinArm07.cpp import JustinArm07 as cpp
 except ModuleNotFoundError:
     cpp = None
 
@@ -27,12 +27,8 @@ class JustinArm07(Robot):
         # Kinematic Chain
         self.dh = jpt.DH_RIGHT
         self.next_frame_idx = np.hstack((np.arange(1, self.n_frames), -1))
-        self.prev_frame_idx = np.hstack((-1, np.arange(0, self.n_frames-1)))
         self.joint_frame_idx = np.arange(self.n_dof)
-        self.frame_frame_influence = kc.next_frame_idx2influence_frames_frames(nfi=self.next_frame_idx)
-        self.joint_frame_influence = kc.influence_frames_frames2joints_frames(jfi=self.joint_frame_idx,
-                                                                              iff=self.frame_frame_influence,
-                                                                              nfi=self.next_frame_idx)
+        chain.complete_chain_parameters(robot=self)
 
         self.f_static = jpt.F_RIGHT_TCP[np.newaxis, :, :]
         self.f_idx_static = np.array([self.n_frames-1])
@@ -42,4 +38,4 @@ class JustinArm07(Robot):
 
         self.spheres_pos = ARM_SPHERES_POS.copy()
         self.spheres_rad = ARM_SPHERES_RAD.copy()
-        self.spheres_frame_idx = ARM_SPHERES_F_IDX.copy()
+        self.spheres_f_idx = ARM_SPHERES_F_IDX.copy()

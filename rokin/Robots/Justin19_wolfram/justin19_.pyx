@@ -16,7 +16,7 @@ cdef int N_FRAMES = 27
 
 
 # Initialize Mathematica / WolframAlpha Library
-forward_kin.crkw_init()
+forward_kin.crkw_init()  # noqa
 
 
 def __get_frames(double[:] q):

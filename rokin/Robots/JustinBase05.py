@@ -1,8 +1,8 @@
 import numpy as np
 
-from rokin.Kinematic.Robots import MovingArm
-from rokin.Kinematic.Robots import Justin19
-from mopla.Justin import parameter_torso as jbp
+from rokin.Robots import MovingArm
+from rokin.Robots import Justin19
+from rokin.Robots.Justin19 import justin19_par as jbp
 
 _justin19 = Justin19()
 
@@ -20,7 +20,7 @@ def _q2linklengths(q=None):
 
 
 class JustinBase05(MovingArm):
-    def __init__(self, q0_justin):
+    def __init__(self, q0_justin=None):
         ll = _q2linklengths(q0_justin)
         super().__init__(n_dof=3, limb_lengths=np.array([0, ll, 0]))
         self.id = 'JustinBase05'

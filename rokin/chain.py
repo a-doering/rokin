@@ -77,6 +77,21 @@ def next2prev_frame_idx(nfi):
     return pfi
 
 
+# fill
+def complete_chain_parameters(robot):
+    try:
+        robot.prev_frame_idx = next2prev_frame_idx(nfi=robot.next_frame_idx)
+
+    except AttributeError:
+        robot.next_frame_idx = prev2next_frame_idx(pfi=robot.prev_frame_idx)
+
+    robot.frame_frame_influence = next_frame_idx2influence_frames_frames(nfi=robot.next_frame_idx)
+    robot.joint_frame_influence = influence_frames_frames2joints_frames(jfi=robot.joint_frame_idx,
+                                                                        iff=robot.frame_frame_influence,
+                                                                        nfi=robot.next_frame_idx)
+
+
+#
 def in_kinematic_chain(jf_influence, f_idx):
     return jf_influence[:, f_idx].sum(axis=-1) != 0
 
@@ -128,7 +143,7 @@ def shift_nfi(nfi, shift):
     return nfi
 
 
-def _combine_chains_end(nfi_a, nfi_b, i=0):
+def combine_chains_end(nfi_a, nfi_b, i=0):
     assert nfi_a[i] == -1
     nfi_a[i] = len(nfi_a)
     nfi_b = shift_nfi(nfi_b, len(nfi_a))

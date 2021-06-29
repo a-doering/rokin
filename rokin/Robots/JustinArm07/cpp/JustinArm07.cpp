@@ -1,7 +1,3 @@
-
-#include <cmath>
-#include <Eigen/Dense>
-
 #include "JustinArm07.h"
 
 
@@ -68,7 +64,7 @@ inline void fill_frames(FRAMES& f, JOINTS& q){
             0, 0, -1, 0,
             std::sin(q[1]), std::cos(q[1]), 0, 0,
             0, 0, 0, 1;
-    f(2) << std::sin(q[2]), std::cos(q[2]), 0, 0,
+    f(2) << std::cos(q[2] - 0.5*pi), std::cos(q[2]), 0, 0,
             0, 0, 1, 0.4,
             std::cos(q[2]), -std::sin(q[2]), 0, 0,
             0, 0, 0, 1;
@@ -80,13 +76,13 @@ inline void fill_frames(FRAMES& f, JOINTS& q){
             0, 0, 1, 0.390,
             std::sin(q[4]), std::cos(q[4]), 0, 0,
             0, 0, 0, 1;
-    f(5) << -std::sin(q[5]), -std::cos(q[5]), 0, 0,
+    f(5) << std::cos(q[5] + 0.5*pi), -std::cos(q[5]), 0, 0,
             0, 0, -1, 0,
-            std::cos(q[5]), -std::sin(q[5]), 0, 0,
+            std::sin(q[5] + 0.5*pi), std::cos(q[5] + 0.5*pi), 0, 0,
             0, 0, 0, 1;
-    f(6) << std::sin(q[6]), std::cos(q[6]), 0, 0,
+    f(6) << std::cos(q[6] - 0.5*pi), std::cos(q[6]), 0, 0,
             0, 0, -1, 0,
-            -std::cos(q[6]), std::sin(q[6]), 0, 0,
+            std::sin(q[6] - 0.5*pi), std::cos(q[6] - 0.5*pi), 0, 0,
             0, 0, 0, 1;
     f(7) << -1., 0, 0, 0,
             0, 0, 1., 0.118,
@@ -193,11 +189,11 @@ inline void _fill_jac(JACS& j, JOINTS& q){
                0, 0, 0, 0;
     j(5, 5) << -std::cos(q[5]), std::sin(q[5]), 0, 0,
                0, 0, 0, 0,
-               -std::sin(q[5]), -std::cos(q[5]), 0, 0,
+               std::cos(q[5] + 0.5*pi), -std::cos(q[5]), 0, 0,
                0, 0, 0, 0;
     j(6, 6) << std::cos(q[6]), -std::sin(q[6]), 0, 0,
                0, 0, 0, 0,
-               std::sin(q[6]), std::cos(q[6]), 0, 0,
+               std::cos(q[6] - 0.5*pi), std::cos(q[6]), 0, 0,
                0, 0, 0, 0;
     
 }

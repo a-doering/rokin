@@ -17,7 +17,7 @@ def __topy_function_stub(fun_name, var_names, var_types, code):
     s = f"""
 PyObject * {fun_name}(PyObject * self, PyObject * args, PyObject * kwargs) {{
 {tab_str(f'''
-// initialize_spheres buffer for arguments
+// initialize buffer for arguments
 {__nl.join([f'{type_dict[t]} {n};' for n, t in zip(var_names, var_types)])}
 
 {__nl.join([f'Py_buffer {n}_v;' for n in vars_o])}
@@ -35,15 +35,19 @@ Py_RETURN_NONE;
     return s
 
 
-def get_setup_py(robot_id, eigen):
+def get_setup_py(robot_id):
     # TODO '-std=c++1y' <-> '-std=c++14'
-    setup_py = f"""from setuptools import Extension, setup
+    setup_py = f"""import os
+from setuptools import Extension, setup
 
+eigen_include_dir = os.environ.get("EIGEN_INCLUDE_DIR",                                  # either user-defined
+                                   os.environ.get("CONDA_PREFIX") + "/include/eigen3/")  # or installed via conda
+                                   
 ext = Extension(
     name='{robot_id}',
     sources=['./topy.cpp', './{robot_id}.cpp'],
     extra_compile_args=['-std=c++1y', '-ffast-math', '-Ofast', '-fpermissive'],
-    include_dirs=['{eigen}'],
+    include_dirs=[eigen_include_dir],
     library_dirs=[],
     libraries=[],
     language='c++',

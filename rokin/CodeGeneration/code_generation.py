@@ -1,8 +1,9 @@
 import re
 import numpy as np
+
 from wzk.strings import brackets_rir, brackets_sis, brackets_rijr, brackets_sissjs
 
-from rokin.Kinematic import chain as kc
+from rokin import chain
 
 name_joint = 'q'
 name_frame = 'f'
@@ -62,7 +63,7 @@ def fill_jacs_str(frames_jac):
 
 
 def combine_frames_str(nfi):
-    pfi = kc.next2prev_frame_idx(nfi)
+    pfi = chain.next2prev_frame_idx(nfi)
     s = ''
     for i, pfi_i in enumerate(pfi[1:], start=1):
         s += f"{var(name_frame, i=i)} = {var(name_frame, i=pfi_i)}{matmul}{var(name_frame, i=i)}{nl}"
@@ -72,7 +73,7 @@ def combine_frames_str(nfi):
 def combine_dict_str(nfi):
 
     n_frames = len(nfi)
-    iff = kc.next_frame_idx2influence_frames_frames(nfi=nfi)
+    iff = chain.next_frame_idx2influence_frames_frames(nfi=nfi)
 
     s = ''
     for i in range(n_frames - 1, -1, -1):
@@ -101,11 +102,11 @@ def combine_jacs_str(nfi, joint_frame_idx):
     # n_frames = len(nfi)
     n_dof = len(joint_frame_idx)
 
-    pfi = kc.next2prev_frame_idx(nfi=nfi)
-    iff = kc.next_frame_idx2influence_frames_frames(nfi=nfi)
-    ijf = kc.influence_frames_frames2joints_frames(jfi=joint_frame_idx, iff=iff)
+    pfi = chain.next2prev_frame_idx(nfi=nfi)
+    iff = chain.next_frame_idx2influence_frames_frames(nfi=nfi)
+    ijf = chain.influence_frames_frames2joints_frames(jfi=joint_frame_idx, iff=iff)
 
-    jf_all, jf_first, jf_last = kc.__get_joint_frame_indices_first_last(joint_frame_idx)
+    jf_all, jf_first, jf_last = chain.__get_joint_frame_indices_first_last(joint_frame_idx)
 
     pfi_ = pfi[jf_first]
     jf_first_ = jf_first  # [pfi_ != -1]
@@ -161,7 +162,6 @@ def remove_trailing_zeros(s, ends=(',', ';', ')', ']', '+', '-', '*', '/', '\n')
         if s[-2:] == '00':
             s = s[:-2]
     return s
-
 
 
 def find_x123(x, s):

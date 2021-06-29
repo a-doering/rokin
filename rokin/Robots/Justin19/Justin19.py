@@ -1,13 +1,13 @@
 import numpy as np
 
-from mopla.Justin import parameter_torso as jtp
-
-from rokin.Kinematic.Robots.Robot import Robot
-from mopla.SelfCollision import get_collision_matrix_frames
+from rokin import chain
+from rokin.Robots import Robot
+from rokin.Robots.Justin19 import justin19_par as jtp
+from rokin.SelfCollision.self_collision import get_collision_matrix_frames
 
 try:
     # noinspection PyUnresolvedReferences,PyPep8Naming
-    from rokin.Kinematic.Robots.Justin19.cpp import Justin19 as cpp
+    from rokin.Robots.Justin19.cpp import Justin19 as cpp
 except ModuleNotFoundError:
     cpp = None
 
@@ -15,6 +15,13 @@ except ModuleNotFoundError:
 world_limits = np.array([[-2, 2],
                          [-2, 2],
                          [-0.5, 3.5]])
+
+
+class CenterOfMass(object):
+    __slots__ = ('base_frame_idx',     # int         | Frame of the base, center of mass should not be too far away
+                 'com_frame_idx',      # int         | Frame of the center of mass
+                 'eps_dist_cost',
+                 'dist_threshold')
 
 
 class Justin19(Robot):
@@ -33,10 +40,8 @@ class Justin19(Robot):
         self.dh = jtp.DH.copy()  # TODO load from calibration
         self.dh_elastic = jtp.DH.copy()
         self.next_frame_idx = jtp.next_frame_idx.copy()
-        self.prev_frame_idx = jtp.prev_frame_idx.copy()
         self.joint_frame_idx = jtp.joint_frame_idx.copy()
-        self.joint_frame_influence = jtp.joint_frame_influence.copy()
-        self.frame_frame_influence = jtp.frame_frame_influence.copy()
+        chain.complete_chain_parameters(robot=self)
 
         self.f_static = jtp.F_STATIC
         self.f_idx_static = jtp.IDX_F_STATIC
@@ -181,36 +186,35 @@ def joint_limits_ajustin_torso23(q,
     return const
 
 
-def joint_limits_ajustin_torso23_jac(q):
-    # joint limits for t3
-    # if t2 < 0:
-    #     [-t2, 135]   -> 0 < t3 + t2
-    # else:
-    #     [0, 135-t2]  -> 0 < 135 - t2 - t3
-
-    t2 = 1
-    t3 = 2
-
-    _, n_waypoints, n_dof = q.shape
-
-    t2_above0 = q[0, :, t2] > 0
-
-    n_variables = n_dof * n_waypoints
-
-    ic = np.arange(n_waypoints).repeat(2)
-    iv = np.concatenate((np.arange(start=t2, stop=n_variables, step=n_dof)[:, np.newaxis],
-                         np.arange(start=t3, stop=n_variables, step=n_dof)[:, np.newaxis]),
-                        axis=1).flatten()
-    data = np.ones((n_waypoints, 2))
-    data[t2_above0, :] = -1
-    limit_jac = sparse_matrix((data.flatten(), (ic, iv)), shape=(n_waypoints, n_variables))
-
-    return limit_jac
+# def joint_limits_ajustin_torso23_jac(q):
+#     # joint limits for t3
+#     # if t2 < 0:
+#     #     [-t2, 135]   -> 0 < t3 + t2
+#     # else:
+#     #     [0, 135-t2]  -> 0 < 135 - t2 - t3
+#
+#     t2 = 1
+#     t3 = 2
+#
+#     _, n_waypoints, n_dof = q.shape
+#
+#     t2_above0 = q[0, :, t2] > 0
+#
+#     n_variables = n_dof * n_waypoints
+#
+#     ic = np.arange(n_waypoints).repeat(2)
+#     iv = np.concatenate((np.arange(start=t2, stop=n_variables, step=n_dof)[:, np.newaxis],
+#                          np.arange(start=t3, stop=n_variables, step=n_dof)[:, np.newaxis]),
+#                         axis=1).flatten()
+#     data = np.ones((n_waypoints, 2))
+#     data[t2_above0, :] = -1
+#     limit_jac = sparse_matrix((data.flatten(), (ic, iv)), shape=(n_waypoints, n_variables))
+#
+#     return limit_jac
 
 
 # Center of Mass
 def get_com():
-    from mopla.parameter import CenterOfMass
     com = CenterOfMass()
     com.base_frame_idx = jtp.IDX_F_TORSO_BASE
     com.com_frame_idx = jtp.FRAME_UPPER_BODY_COM
@@ -258,12 +262,12 @@ def speed_test_var_fix_dh():
 
 if __name__ == '__main__':
     pass
-    robot = Justin19()
-    q = robot.sample_q()
+    # robot = Justin19()
+    # q = robot.sample_q()
     # from mopla.Justin.primitives_torso import justin_primitives
     #
     # q = justin_primitives(justin='getready')
-    f = robot.get_frames(q)[13]
+    # f = robot.get_frames(q)[13]
     #
     # b = np.array([[0, 0, 1, 0],
     #               [1, 0, 0, 0]])

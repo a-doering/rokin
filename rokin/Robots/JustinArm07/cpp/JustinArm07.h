@@ -1,13 +1,18 @@
 #ifndef JUSTINARM07_H
 #define JUSTINARM07_H
 
+#include <cmath>
+#include <Eigen/Dense>
+
+const double pi = 3.141592653589793;
+
 const int N_JOINTS = 7;
 const int N_FRAMES = 8;
 const int N_DH = 7;
 
 typedef Eigen::Matrix<double, 4, 4, Eigen::RowMajor> MatrixRow;
-typedef Eigen::Map<Eigen::Array<MatrixRow, N_FRAMES, 1, Eigen::ColMajor>> FRAMES;
-typedef Eigen::Map<Eigen::Array<MatrixRow,  N_JOINTS, N_FRAMES, Eigen::RowMajor>> JACS;
+typedef Eigen::Map<Eigen::Array<MatrixRow, N_FRAMES, 1, Eigen::ColMajor> > FRAMES;
+typedef Eigen::Map<Eigen::Array<MatrixRow,  N_JOINTS, N_FRAMES, Eigen::RowMajor> > JACS;
 typedef Eigen::Array<MatrixRow, N_FRAMES, N_FRAMES, Eigen::RowMajor> DICT;
 typedef double JOINTS[N_JOINTS];
 typedef double DH4[N_DH][4];

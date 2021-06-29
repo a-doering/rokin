@@ -1,5 +1,5 @@
-from rokin.Kinematic.Robots import MovingArm03
-from mopla.Justin import parameter_mobile_base as jbp
+from rokin.Robots import MovingArm03
+from rokin.Robots.JustinBase03 import justinbase03_par as jbp
 
 
 class JustinBase03(MovingArm03):
