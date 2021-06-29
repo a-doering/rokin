@@ -32,11 +32,11 @@ class JustinHand12(Robot):
         self.dh = np.tile(_finger03.dh, reps=(4, 1))
 
         self.next_frame_idx = chain.combine_chains(nfi_list=[_finger03.next_frame_idx]*4, mode='base')
-        self.next_frame_idx = chain.combine_chains_end(nfi_a=np.array([-1]), nfi_b=self.next_frame_idx, i=0)
-        self.joint_frame_idx = np.array([1, 2, [3, 4],
-                                         7, 8, [9, 10],
-                                         13, 14, [15, 16],
-                                         19, 20, [21, 22]], dtype='object')
+
+        self.joint_frame_idx = np.array([2, 3, [4, 5],
+                                         8, 9, [10, 11],
+                                         14, 15, [16, 17],
+                                         20, 21, [22, 23]], dtype='object')
         chain.complete_chain_parameters(robot=self)
 
         self.f_static = np.zeros((9, 4, 4))
@@ -90,22 +90,9 @@ class JustinHand12(Robot):
         rotvec = np.zeros((1+4*4, 3))
         rotvec[1:, 0] = -np.pi/2
         self.meshes_frames = trans_rotvec2frame(trans=trans, rotvec=rotvec)
-
         self.meshes_f_idx = np.concatenate([[0], 1 + tile_offset(a=np.array([0, 2, 3, 4]), reps=4,
                                                                  offsets=_finger03.n_frames)])
 
 
-# cal_rob.next_frame_idx
-# array([
-# 1,
-# 2,  3,  4,  5,  6, -1,
-# 8,  9, 10, 11, 12, -1,
-# 14, 15, 16, 17, 18, -1,
-# 20, 21, 22, 23, 24, -1])
 
-# cal_rob.capsules_f_idx
-# array([
-# 3,  4,  5,
-# 9, 10, 11,
-# 15, 16, 17,
-# 21, 22, 23])
+robot = JustinHand12()

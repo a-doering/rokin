@@ -2,7 +2,7 @@ import numpy as np
 
 from rokin.Robots import MovingArm
 from rokin.Robots import Justin19
-from rokin.Robots.Justin19 import justin19_par as jbp
+from rokin.Robots.JustinBase03 import justinbase03_par as jbp
 
 _justin19 = Justin19()
 
@@ -35,4 +35,4 @@ class JustinBase05(MovingArm):
 
         self.spheres_pos = jbp.SPHERES_POS.copy()
         self.spheres_rad = jbp.SPHERES_RAD.copy()
-        self.spheres_frame_idx = jbp.SPHERES_F_IDX.copy()
+        self.spheres_f_idx = jbp.SPHERES_F_IDX.copy()

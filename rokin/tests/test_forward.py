@@ -14,7 +14,7 @@ if platform.system() == 'Linux':
 else:
     justin19_wolfram = None
 
-robot_ids = ['JustinHand12', 'SingleSphere02', 'SingleSphere03',
+robot_ids = ['JustinBase05', 'SingleSphere02', 'SingleSphere03',
              'StaticArm02', 'StaticArm07',
              'MovingArm01', 'MovingArm06',
              'Justin19', 'JustinArm07',
@@ -31,16 +31,14 @@ class Test(unittest.TestCase):
     def __test_get_frames_jac(self, robot_id):
         robot = str2robot(robot_id)
         q = sample_q(robot=robot, mode='random')
-        print(robot_id)
         grad_numeric = numeric_derivative(fun=get_frames, x=q, robot=robot,
                                           axis=-1, eps=eps)
-        grad_analytic = get_frames_jac(q=q, robot=robot)[1]
-        # d = compare_arrays(grad_numeric, grad_analytic, axis=(-4, -1), verbose=verbose-1)
-        # d1 = compare_arrays(grad_numeric*2, grad_analytic, axis=(-4, -1), verbose=verbose-1)
-        print(np.round(grad_analytic[0, :10, :, :, 0], 2))
-        print(np.round(grad_numeric[0, :10, :, :, 0], 2))
-        self.assertTrue(compare_arrays(a=grad_numeric, b=grad_analytic, axis=(-4, -1),
+        fun1 = get_frames(q=q, robot=robot)
+        fun2, grad_analytic = get_frames_jac(q=q, robot=robot)
+        self.assertTrue(compare_arrays(a=fun1, b=fun2, axis=(-3,),
                                        title='Frames ' + robot.id, verbose=verbose-1))
+        self.assertTrue(compare_arrays(a=grad_numeric, b=grad_analytic, axis=(-4, -1),
+                                       title='Jacs ' + robot.id, verbose=verbose-1))
 
     def __test_get_x_spheres_jac(self, robot_id):
         robot = str2robot(robot_id)
@@ -276,7 +274,7 @@ def sample_q(robot, mode):
         shape = mode
 
     elif mode == 'random':
-        shape = 100
+        shape = 1
 
     elif mode == 'random2':
         shape = tuple(np.random.randint(1, 10) for _ in range(np.random.randint(1, 5)))

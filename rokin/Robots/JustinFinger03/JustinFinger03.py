@@ -36,13 +36,14 @@ class JustinFinger03(Robot):
 
         self.next_frame_idx = np.array([1, 2, 3, 4, 5, -1])
         self.joint_frame_idx = np.array([1, 2, [3, 4]], dtype='object')
+        self.joint_frame_idx_dh = np.array([1, 2, 3, 4])
+
         chain.complete_chain_parameters(robot=self)
 
         self.f_static = np.zeros((2, 4, 4,))
         self.f_static[0] = np.eye(4)
         self.f_static[1] = dh.frame_from_dh(q=0, d=0.029, theta=np.pi, a=0, alpha=-np.pi/2)
         self.f_idx_static = np.array([0, 5])
-        self.joint_frame_idx_dh = np.array([1, 2, 3, 4])
         self.coupled_passive_joints = {3: lambda q: q[2]}
         self.coupled_passive_joints_jac = {3: lambda q: np.array([0, 0, 1])}
 

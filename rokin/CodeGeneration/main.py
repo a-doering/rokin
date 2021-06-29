@@ -34,8 +34,8 @@ def main(robot, dh_mode='fix'):
 
 
 if __name__ == '__main__':
-    from rokin.Robots import JustinArm07
-    _robot = JustinArm07()
+    from rokin.Robots import JustinHand12
+    _robot = JustinHand12()
 
     directory = os.path.split(__file__)[0] + f'/../Robots/{_robot.id}/cpp'
     directory = os.path.normpath(directory)

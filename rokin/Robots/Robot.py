@@ -100,7 +100,6 @@ class Robot(object):
 
     def _get_frames_jac_cpp(self, q):
         f, j = self._init_f_cpp(q.shape), self._init_j_cpp(q.shape)
-        print('AAAA')
         self._cpp.get_frames_jacs(frames=f, jacs=j, joints=self._2cpp(q), n=q[..., 0].size)
 
         return apply_eye_wrapper(f, self.f_world_robot), np.moveaxis(j, -4, -1)

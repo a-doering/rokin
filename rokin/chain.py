@@ -152,13 +152,18 @@ def combine_chains_end(nfi_a, nfi_b, i=0):
 
 
 def combine_chains(nfi_list, mode='base'):
-    if mode == 'base':
-        nfi_final = nfi_list[0]
-        for nfi in nfi_list[1:]:
-            nfi = (shift_nfi(nfi=np.copy(nfi), shift=len(nfi_final)))
-            nfi_final = np.hstack((nfi_final, nfi))
+    if len(nfi_list) == 1:
+        return nfi_list
 
-        return nfi_final
+    if mode == 'base':
+        cs = np.cumsum([1] + [len(nfi) for nfi in nfi_list[:-1]])
+
+        nfi_final = [cs.tolist()]
+        for nfi in nfi_list:
+            nfi = shift_nfi(nfi=np.copy(nfi), shift=len(nfi_final))
+            nfi_final += nfi.tolist()
+
+        return np.array(nfi_final, dtype=object)
 
     elif mode == 'end':
 

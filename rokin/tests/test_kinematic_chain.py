@@ -1,5 +1,6 @@
 from unittest import TestCase
 from wzk.time import tic, toc
+from wzk.dicts_lists_tuples import flatten
 
 from rokin.chain import *
 
@@ -20,13 +21,14 @@ class Test(TestCase):
     def test_combine_chains(self):
         nfi = np.array([1, 2, 3, 4, 5, -1])
         nfi_list = [nfi]*4
-        nfi_combined = [1,  2,  3,  4,  5,  -1,
-                        7,  8,  9, 10, 11,  -1,
-                        13, 14, 15, 16, 17, -1,
-                        19, 20, 21, 22, 23, -1]
+        nfi_combined = [[1, 7, 13, 19],
+                        2,  3,  4,  5, 6, -1,
+                        8,  9, 10, 11, 12, -1,
+                        14, 15, 16, 17, 18, -1,
+                        20, 21, 22, 23, 24, -1]
         nfi_combined2 = combine_chains(nfi_list)
 
-        self.assertTrue(all(nfi_combined == nfi_combined2))
+        self.assertTrue(flatten(nfi_combined) == flatten(nfi_combined2))
 
     def test_speed(self):
 
