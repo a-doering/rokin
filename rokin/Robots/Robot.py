@@ -15,7 +15,7 @@ _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
 
 def import_robot_cpp(robot, replace=False, verbose=0):
     try:
-        return importlib.import_module(f'rokin.Robots.{robot.id}.cpp')
+        return importlib.import_module(f'rokin.Robots.{robot.id}.cpp.{robot.id}')
 
     except ModuleNotFoundError:
         pass

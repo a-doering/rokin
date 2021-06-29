@@ -21,7 +21,6 @@ n_dim = 2
 
 try:
     import ardx.ardx as ardx
-
     mpc = ardx.require('ajconfig.mobile-platform-calibration')
 
     WHEEL_MOUNTING_POS = np.zeros((4, 2))
@@ -31,7 +30,7 @@ try:
     WHEEL_MOUNTING_POS[3, :] = (mpc.MPC_WHEEL_BL_X, mpc.MPC_WHEEL_BL_Y)
 
 except (ModuleNotFoundError,) as e:
-    print(f"{__name__}: ardx not found")
+    # print(f"{__name__}: ardx not found")
     # Mounting position of the wheels (clock-wise)
     WHEEL_MOUNTING_POS = np.array([[+0.376314, +0.281961],   # front left
                                    [+0.299227, -0.224202],   # front right
