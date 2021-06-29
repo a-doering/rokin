@@ -6,9 +6,10 @@ from rokin.Robots.Justin19 import justin19_par as jpt
 from rokin.Robots.Justin19.spheres import ARM_SPHERES_F_IDX, ARM_SPHERES_POS, ARM_SPHERES_RAD
 
 try:
-    # noinspection PyUnresolvedReferences,PyPep8Naming
-    from rokin.Robots.JustinArm07.cpp import JustinArm07 as cpp
+    from rokin.Robots.JustinArm07.cpp import JustinArm07 as cpp  # noqa
 except ModuleNotFoundError:
+    cpp = None
+except ImportError:
     cpp = None
 
 

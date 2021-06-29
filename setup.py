@@ -14,7 +14,11 @@ class InstallLocalPackage(install):
     def run(self):
         install.run(self)
         print(directory)
+        subprocess.call(f"cd {directory}/rokin/Robots/Justin19/cpp; python setup.py develop", shell=True)
+        subprocess.call(f"cd {directory}/rokin/Robots/JustinArm07/cpp; python setup.py develop", shell=True)
         subprocess.call(f"cd {directory}/rokin/Robots/JustinFinger03/cpp; python setup.py develop", shell=True)
+        subprocess.call(f"cd {directory}/rokin/Robots/JustinHand12/cpp; python setup.py develop", shell=True)
+        subprocess.call(f"cd {directory}/rokin/Robots/JustinHand12Cal/cpp; python setup.py develop", shell=True)
 
 
 setup(

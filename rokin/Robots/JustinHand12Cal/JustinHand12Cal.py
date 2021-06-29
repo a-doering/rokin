@@ -6,6 +6,8 @@ try:
     import rokin.Robots.cpp.JustinHand12Cal.JustinHand12Cal as cpp  # noqa
 except ModuleNotFoundError:
     cpp = None
+except ImportError:
+    cpp = None
 
 
 class JustinHand12Cal(JustinHand12):

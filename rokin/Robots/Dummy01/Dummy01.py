@@ -4,8 +4,7 @@ from rokin.Robots import Robot
 from rokin import chain
 
 try:
-    # noinspection PyUnresolvedReferences,PyPep8Naming
-    from rokin.Kinematic.Robots.Dummy01.cpp import Dummy01 as cpp
+    from rokin.Kinematic.Robots.Dummy01.cpp import Dummy01 as cpp  # noqa
 except ModuleNotFoundError:
     cpp = None
 
