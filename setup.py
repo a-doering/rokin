@@ -39,6 +39,7 @@ setup(
     long_description=long_description,
     url="https://github.com/scleronomic/rokin",
     packages=find_packages(),
+    include_package_data=True,
     install_requires=['numpy',
                       #'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
                       ],
