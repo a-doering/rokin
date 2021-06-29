@@ -56,5 +56,5 @@ setup(
     ],
 
     cmdclass={'install': CompileRobotsInstall,
-              'develop': CompileRobotsDevelop,
+              'develop': CompileRobotsDevelop}
 )
