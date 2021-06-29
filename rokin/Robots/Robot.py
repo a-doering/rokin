@@ -1,6 +1,9 @@
+import importlib
+
 import numpy as np
 
 from rokin import forward
+from rokin.CodeGeneration import main as code_generation
 
 from wzk.math2 import angle2minuspi_pluspi
 from wzk.random2 import random_uniform_ndim
@@ -8,6 +11,21 @@ from wzk.spatial.transform import initialize_frames, apply_eye_wrapper
 
 _cpp_order = 'c'
 _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
+
+
+def import_robot_cpp(robot, replace=False):
+    try:
+        return importlib.import_module(f'rokin.Robots.{robot}.cpp')
+
+    except ModuleNotFoundError:
+        pass
+    except ImportError:
+        pass
+
+    code_generation.generate_robot_cpp(robot=robot, replace=replace)
+    code_generation.compile_robot_cpp(robot=robot, replace=replace)
+    print(f"Rerun your code after the generation and compilation of the C++ code for {robot.id}.")
+    return None
 
 
 class Robot(object):

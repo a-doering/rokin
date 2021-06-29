@@ -1,23 +1,15 @@
 import numpy as np
-from rokin.Robots import Robot
-from rokin import chain
 
+from rokin.Robots import Robot, import_robot_cpp
+from rokin import chain
 from rokin.Robots.Justin19 import justin19_par as jpt
 from rokin.Robots.Justin19.spheres import ARM_SPHERES_F_IDX, ARM_SPHERES_POS, ARM_SPHERES_RAD
-
-try:
-    from rokin.Robots.JustinArm07.cpp import JustinArm07 as cpp  # noqa
-except ModuleNotFoundError:
-    cpp = None
-except ImportError:
-    cpp = None
 
 
 class JustinArm07(Robot):
 
     def __init__(self):
         self.id = 'JustinArm07'
-        self._cpp = cpp
         self.n_dim = 3
         self.n_dof = 7
         self.n_frames = jpt.N_FRAMES_RIGHT - 1
@@ -40,3 +32,5 @@ class JustinArm07(Robot):
         self.spheres_pos = ARM_SPHERES_POS.copy()
         self.spheres_rad = ARM_SPHERES_RAD.copy()
         self.spheres_f_idx = ARM_SPHERES_F_IDX.copy()
+
+        self._cpp = import_robot_cpp(robot=self, replace=False)

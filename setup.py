@@ -17,7 +17,7 @@ def _run(self):
             print()
         print(directory)
         print(os.listdir(f'/volume/USERSTORE/tenh_jo/Software/miniconda3/envs/py38test/lib/python3.8/site-packages/rokin/Robots/{robot}/cpp/'))
-        # subprocess.call(f"cd {directory}/rokin/Robots/{robot}/cpp; python setup.py develop", shell=True)
+        subprocess.call(f"cd {directory}/rokin/Robots/{robot}/cpp; python setup.py develop", shell=True)
 
 
 class CompileRobotsInstall(install):
@@ -44,6 +44,10 @@ setup(
     url="https://github.com/scleronomic/rokin",
     include_package_data=True,
     packages=find_packages(),
+    package_data={
+        'build': ['*.so'],
+    },
+
     install_requires=['numpy',
                       # 'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
                       ],

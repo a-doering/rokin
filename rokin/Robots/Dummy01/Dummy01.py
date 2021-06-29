@@ -1,19 +1,13 @@
 import numpy as np
 
-from rokin.Robots import Robot
+from rokin.Robots import Robot, import_robot_cpp
 from rokin import chain
-
-try:
-    from rokin.Kinematic.Robots.Dummy01.cpp import Dummy01 as cpp  # noqa
-except ModuleNotFoundError:
-    cpp = None
 
 
 class Dummy01(Robot):
 
     def __init__(self):
         self.id = 'Dummy01'
-        self._cpp = cpp
 
         self.n_dim = 3
         self.n_dof = 1
@@ -34,3 +28,5 @@ class Dummy01(Robot):
         self.joint_frame_idx_dh = self.joint_frame_idx
         self.coupled_passive_joints = None
         self.coupled_passive_joints_jac = None
+
+        self._cpp = import_robot_cpp(robot=self, replace=False)

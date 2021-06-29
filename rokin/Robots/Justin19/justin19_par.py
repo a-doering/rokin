@@ -18,7 +18,7 @@ try:
     IDX_F_HEAD_TCP = ardx.constants.AJUSTIN_KINEMATICS_FRAME_HEAD2
 
 except ModuleNotFoundError:
-    print(f"{__name__}: ardx not found")
+    # print(f"{__name__}: ardx not found")
     ardx = None
     IDX_F_TORSO_BASE = 0
     IDX_F_TORSO_TCP = 4

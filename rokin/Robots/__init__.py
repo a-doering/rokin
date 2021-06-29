@@ -1,4 +1,4 @@
-from .Robot import Robot
+from .Robot import Robot, import_robot_cpp
 
 # Academic 2D Robots
 from .SingleSphere import SingleSphere, SingleSphere02, SingleSphere03

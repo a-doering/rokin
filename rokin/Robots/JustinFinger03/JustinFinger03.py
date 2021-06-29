@@ -2,22 +2,14 @@ import numpy as np
 from wzk.spatial.transform import trans_rotvec2frame
 
 from rokin import dh, chain
-from rokin.Robots import Robot
+from rokin.Robots import Robot, import_robot_cpp
 from rokin.SelfCollision.capsules import get_capsules_info
-
-try:
-    from rokin.Robots.JustinFinger03.cpp import JustinFinger03 as cpp  # noqa
-except ModuleNotFoundError:
-    cpp = None
-except ImportError:
-    cpp = None
 
 
 class JustinFinger03(Robot):
 
     def __init__(self):
         self.id = 'JustinFinger03'
-        self._cpp = cpp
 
         self.n_dim = 3
         self.n_dof = 3
@@ -81,8 +73,4 @@ class JustinFinger03(Robot):
 
         self.meshes_f_idx = np.array([2, 3, 4])
 
-
-# robot = JustinFinger03()
-# robot.capsules_f_idx
-# robot.capsules_pos
-# robot.capsules_rad
+        self._cpp = import_robot_cpp(robot=self, replace=False)

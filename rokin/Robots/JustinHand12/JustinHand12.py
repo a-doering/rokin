@@ -3,15 +3,8 @@ from wzk.spatial import trans_rotvec2frame
 from wzk.numpy2 import tile_offset
 
 from rokin import dh, chain
-from rokin.Robots import Robot, JustinFinger03
+from rokin.Robots import Robot, import_robot_cpp, JustinFinger03
 
-try:
-    # noinspection PyUnresolvedReferences,PyPep8Naming
-    from rokin.Robots.JustinHand12.cpp import JustinHand12 as cpp
-except ModuleNotFoundError:
-    cpp = None
-except ImportError:
-    cpp = None
 
 _finger03 = JustinFinger03()
 
@@ -19,7 +12,6 @@ _finger03 = JustinFinger03()
 class JustinHand12(Robot):
     def __init__(self):
         self.id = 'JustinHand12'
-        self._cpp = cpp
 
         self.n_dim = 3
         self.n_dof = _finger03.n_dof * 4
@@ -93,6 +85,6 @@ class JustinHand12(Robot):
         self.meshes_f_idx = np.concatenate([[0], 1 + tile_offset(a=np.array([0, 2, 3, 4]), reps=4,
                                                                  offsets=_finger03.n_frames)])
 
+        self._cpp = import_robot_cpp(robot=self, replace=False)
 
 
-robot = JustinHand12()

@@ -1,15 +1,11 @@
 import numpy as np
 
 from rokin import chain
-from rokin.Robots import Robot
+from rokin.Robots import Robot, import_robot_cpp
 from rokin.Robots.Justin19 import justin19_par as jtp
 from rokin.SelfCollision.self_collision import get_collision_matrix_frames
 
-try:
-    # noinspection PyUnresolvedReferences,PyPep8Naming
-    from rokin.Robots.Justin19.cpp import Justin19 as cpp
-except ModuleNotFoundError:
-    cpp = None
+import_robot_cpp()
 
 
 world_limits = np.array([[-2, 2],
@@ -28,7 +24,6 @@ class Justin19(Robot):
 
     def __init__(self):
         self.id = 'Justin19'
-        self._cpp = cpp
         self.n_dim = 3
         self.n_dof = jtp.N_JOINTS
         self.n_frames = jtp.N_FRAMES
@@ -75,6 +70,8 @@ class Justin19(Robot):
         self.meshes = 1
         self.meshes_frames = 1
         self.meshes_frames_idx = 1
+
+        self._cpp = import_robot_cpp(robot=self, replace=False)
 
     def sample_q(self, shape=None):
         q = super().sample_q(shape=shape)

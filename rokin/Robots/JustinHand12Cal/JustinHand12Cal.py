@@ -1,20 +1,12 @@
 import numpy as np
 
-from rokin.Robots import JustinHand12
-
-try:
-    import rokin.Robots.cpp.JustinHand12Cal.JustinHand12Cal as cpp  # noqa
-except ModuleNotFoundError:
-    cpp = None
-except ImportError:
-    cpp = None
+from rokin.Robots import JustinHand12, import_robot_cpp
 
 
 class JustinHand12Cal(JustinHand12):
     def __init__(self):
         super().__init__()
         self.id = 'JustinHand12Cal'
-        self._cpp = cpp
         #  self.dh += np.array([[[-0.00641108,  0.00011819,  0.00065671, -0.00598573],
         #  [ 0.00072967, -0.00693897, -0.00716587, -0.00782515],
         #  [ 0.00070378, -0.00642417,  0.00538544, -0.00188082],
@@ -50,3 +42,4 @@ class JustinHand12Cal(JustinHand12):
                                          [ 0.8372369 ,  0.31631313,  0.44607216,  0.10283151],
                                          [ 0.        ,  0.        ,  0.        ,  1.        ]]])
 
+        self._cpp = import_robot_cpp(robot=self, replace=False)
