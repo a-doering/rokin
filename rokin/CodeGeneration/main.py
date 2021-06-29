@@ -27,7 +27,8 @@ def main(robot, dh_mode='fix'):
                                          s_combine_f=s_combine_f, s_combine_j=s_combine_j, s_combine_d=s_create_d)
 
     safe_create_dir(directory=directory)
-    str2file(directory=directory, **{'setup.py': setup_py,
+    str2file(directory=directory, **{'__init__.py': '',
+                                     'setup.py': setup_py,
                                      'topy.cpp': topy_cpp,
                                      f'{robot.id}.h': robot_h,
                                      f'{robot.id}.cpp': robot_cpp})
