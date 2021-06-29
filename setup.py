@@ -17,7 +17,7 @@ class InstallLocalPackage(install):
         print('PREEE COMPILED ROBOTS')
         print('PREEE COMPILED ROBOTS')
         print('PREEE COMPILED ROBOTS')
-        install.do_egg_install(self)
+        # install.do_egg_install(self)
         print(directory)
         subprocess.call(f"cd {directory}/rokin/Robots/Justin19/cpp; python setup.py develop", shell=True)
         subprocess.call(f"cd {directory}/rokin/Robots/JustinArm07/cpp; python setup.py develop", shell=True)
