@@ -10,7 +10,6 @@ with open("docs/README.md", "r") as fh:
 
 
 def _run(self):
-    install.run(self)
     directory = os.path.split(__file__)[0]
 
     robot_list = ['Justin19', 'JustinArm07', 'JustinFinger03', 'JustinHand12', 'JustinHand12Cal']
@@ -28,11 +27,11 @@ class CompileRobotsInstall(install):
         _run(self)
 
 
-class CompileRobotsDevelop(develop):
-    def run(self):
-        develop.run(self)
-        self.announce('DEVELOP')
-        _run(self)
+# class CompileRobotsDevelop(develop):
+#     def run(self):
+#         develop.run(self)
+#         self.announce('DEVELOP')
+#         _run(self)
 
 
 setup(
@@ -46,7 +45,7 @@ setup(
     include_package_data=True,
     packages=find_packages(),
     install_requires=['numpy',
-                      #'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
+                      # 'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
                       ],
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -54,5 +53,6 @@ setup(
     ],
 
     cmdclass={'install': CompileRobotsInstall,
-              'develop': CompileRobotsDevelop}
+              # 'develop': CompileRobotsDevelop
+             }
 )
