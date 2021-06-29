@@ -5,8 +5,6 @@ from rokin.Robots import Robot, import_robot_cpp
 from rokin.Robots.Justin19 import justin19_par as jtp
 from rokin.SelfCollision.self_collision import get_collision_matrix_frames
 
-import_robot_cpp()
-
 
 world_limits = np.array([[-2, 2],
                          [-2, 2],
