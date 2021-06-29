@@ -3,27 +3,18 @@ import subprocess
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 from setuptools.command.develop import develop
-from setuptools.command.build_py import build_py
 
 
 with open("docs/README.md", "r") as fh:
     long_description = fh.read()
 
-directory = os.path.split(__file__)[0]
-
 
 def _run(self):
+    directory = os.path.split(__file__)[0]
 
-    print(directory)
-    subprocess.call(f"cd {directory}/rokin/Robots/Justin19/cpp; python setup.py develop", shell=True)
-    subprocess.call(f"cd {directory}/rokin/Robots/JustinArm07/cpp; python setup.py develop", shell=True)
-    subprocess.call(f"cd {directory}/rokin/Robots/JustinFinger03/cpp; python setup.py develop", shell=True)
-    subprocess.call(f"cd {directory}/rokin/Robots/JustinHand12/cpp; python setup.py develop", shell=True)
-    subprocess.call(f"cd {directory}/rokin/Robots/JustinHand12Cal/cpp; python setup.py develop", shell=True)
-    self.announce('COMPILED ROBOTS')
-    self.announce('COMPILED ROBOTS')
-    self.announce('COMPILED ROBOTS')
-    self.announce('COMPILED ROBOTS')
+    robot_list = ['Justin19', 'JustinArm07', 'JustinFinger03', 'JustinHand12', 'JustinHand12Cal']
+    for robot in robot_list:
+        subprocess.call(f"cd {directory}/rokin/Robots/{robot}/cpp; python setup.py develop", shell=True)
 
 
 class CompileRobotsInstall(install):
@@ -38,14 +29,6 @@ class CompileRobotsDevelop(develop):
         develop.run(self)
         self.announce('DEVELOP')
         _run(self)
-
-
-class CompileRobotsBuildPy(build_py):
-    def run(self):
-        build_py.run(self)
-        self.announce('BUILD')
-        _run(self)
-
 
 
 setup(
@@ -67,7 +50,5 @@ setup(
     ],
 
     cmdclass={'install': CompileRobotsInstall,
-              'develop': CompileRobotsDevelop,
-              'build_py': CompileRobotsBuildPy,
-              }
+              'develop': CompileRobotsDevelop}
 )
