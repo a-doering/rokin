@@ -49,7 +49,7 @@ setup(
 
     install_requires=['numpy',
                       'sympy',
-                      # 'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
+                      'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
                       ],
     classifiers=[
         "Programming Language :: Python :: 3",
