@@ -62,7 +62,7 @@ def generate_robot_cpp(robot, dh_mode='fix', replace=True,
                                      f'{robot.id}.h': robot_h,
                                      f'{robot.id}.cpp': robot_cpp})
     if verbose > 0:
-        print(f"Successfully code generation for the robot {_robot.id} in the directory {directory}")
+        print(f"Successfully generated code for the robot {_robot.id} in the directory {directory}")
 
 
 def compile_robot_cpp(robot, replace=False, verbose=0):
@@ -74,7 +74,10 @@ def compile_robot_cpp(robot, replace=False, verbose=0):
                   f"Use replace=True to overwrite the files.")
         return
 
-    subprocess.call(f"cd {directory}/{robot.id}/cpp; python setup.py develop", shell=True)
+    quite = f" > {os.devnull}" if verbose < 2 else ""
+    subprocess.call(f"cd {directory}; python setup.py develop{quite}", shell=True)
+    if verbose > 0:
+        print(f"Successfully compiled code for the robot {robot.id} in the directory {directory}.")
 
 
 if __name__ == '__main__':
