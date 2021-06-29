@@ -22,4 +22,3 @@ setup(
 
 # Compile via:
 # python setup.py develop
-
