@@ -3,6 +3,7 @@ import subprocess
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 from setuptools.command.develop import develop
+from setuptools.command.build_py import build_py
 
 
 with open("docs/README.md", "r") as fh:
@@ -36,6 +37,12 @@ class CompileRobotsDevelop(develop):
         _run(self)
 
 
+class CompileRobotsBuildPy(build_py):
+    def run(self):
+        build_py.run(self)
+        _run(self)
+
+
 
 setup(
     name="rokin",
@@ -56,5 +63,7 @@ setup(
     ],
 
     cmdclass={'install': CompileRobotsInstall,
-              'develop': CompileRobotsDevelop}
+              'develop': CompileRobotsDevelop,
+              'build_py': CompileRobotsBuildPy,
+              }
 )
