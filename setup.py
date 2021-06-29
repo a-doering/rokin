@@ -13,6 +13,7 @@ directory = os.path.split(__file__)[0]
 
 
 def _run(self):
+    b = a
     print(directory)
     # subprocess.call(f"cd {directory}/rokin/Robots/Justin19/cpp; python setup.py develop", shell=True)
     # subprocess.call(f"cd {directory}/rokin/Robots/JustinArm07/cpp; python setup.py develop", shell=True)
