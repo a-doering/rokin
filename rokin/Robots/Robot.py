@@ -13,19 +13,19 @@ _cpp_order = 'c'
 _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
 
 
-def import_robot_cpp(robot, replace=False):
+def import_robot_cpp(robot, replace=False, verbose=0):
     try:
-        return importlib.import_module(f'rokin.Robots.{robot}.cpp')
+        return importlib.import_module(f'rokin.Robots.{robot.id}.cpp')
 
     except ModuleNotFoundError:
         pass
     except ImportError:
         pass
 
-    code_generation.generate_robot_cpp(robot=robot, replace=replace)
-    code_generation.compile_robot_cpp(robot=robot, replace=replace)
-    print(f"Rerun your code after the generation and compilation of the C++ code for {robot.id}.")
-    return None
+    assert robot.n_dim == 3
+    code_generation.generate_robot_cpp(robot=robot, replace=replace, verbose=verbose)
+    code_generation.compile_robot_cpp(robot=robot, replace=replace, verbose=verbose)
+    raise Warning("Rerun your code after the generation and compilation of the C++ code for {robot.id}.")
 
 
 class Robot(object):
