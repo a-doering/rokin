@@ -40,7 +40,8 @@ setup(
     url="https://github.com/scleronomic/rokin",
     packages=find_packages(),
     install_requires=['numpy',
-                      'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'],
+                      #'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
+                      ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
