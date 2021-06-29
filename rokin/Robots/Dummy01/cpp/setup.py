@@ -1,10 +1,13 @@
 from setuptools import Extension, setup
 
+eigen_include_dir = os.environ.get("EIGEN_INCLUDE_DIR",                                  # either user-defined
+                                   os.environ.get("CONDA_PREFIX") + "/include/eigen3/")  # or installed via conda
+
 ext = Extension(
     name='Dummy01',
     sources=['./topy.cpp', './Dummy01.cpp'],
     extra_compile_args=['-std=c++1y', '-ffast-math', '-Ofast', '-fpermissive'],
-    include_dirs=['/Users/jote/Documents/Code/Software/C/eigen-3.3.7/'],
+    include_dirs=[eigen_include_dir],
     library_dirs=[],
     libraries=[],
     language='c++',
