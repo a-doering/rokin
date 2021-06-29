@@ -8,6 +8,7 @@ with open("docs/README.md", "r") as fh:
 
 
 directory = os.path.split(__file__)[0]
+print(directory)
 
 
 class InstallLocalPackage(install):
@@ -16,7 +17,7 @@ class InstallLocalPackage(install):
         print('PREEE COMPILED ROBOTS')
         print('PREEE COMPILED ROBOTS')
         print('PREEE COMPILED ROBOTS')
-        install.run(self)
+        install.do_egg_install(self)
         print(directory)
         subprocess.call(f"cd {directory}/rokin/Robots/Justin19/cpp; python setup.py develop", shell=True)
         subprocess.call(f"cd {directory}/rokin/Robots/JustinArm07/cpp; python setup.py develop", shell=True)
@@ -27,7 +28,6 @@ class InstallLocalPackage(install):
         print('COMPILED ROBOTS')
         print('COMPILED ROBOTS')
         print('COMPILED ROBOTS')
-
 
 
 setup(
