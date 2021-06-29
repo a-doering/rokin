@@ -12,6 +12,10 @@ directory = os.path.split(__file__)[0]
 
 class InstallLocalPackage(install):
     def run(self):
+        print('PREEE COMPILED ROBOTS')
+        print('PREEE COMPILED ROBOTS')
+        print('PREEE COMPILED ROBOTS')
+        print('PREEE COMPILED ROBOTS')
         install.run(self)
         print(directory)
         subprocess.call(f"cd {directory}/rokin/Robots/Justin19/cpp; python setup.py develop", shell=True)
@@ -41,6 +45,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    cmdclass={'install': InstallLocalPackage}
+    cmdclass={'install': InstallLocalPackage,
+              'develop': InstallLocalPackage}
 
 )
