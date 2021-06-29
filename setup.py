@@ -16,7 +16,9 @@ def _run(self):
         for i in range(10):
             print()
         print(directory)
-        print(os.listdir(f'/volume/USERSTORE/tenh_jo/Software/miniconda3/envs/py38test/lib/python3.8/site-packages/rokin/Robots/{robot}/cpp/'))
+        #print(os.listdir(f'/volume/USERSTORE/tenh_jo/Software/miniconda3/envs/py38test/lib/python3.8/site-packages/rokin/Robots/{robot}/cpp/'))
+        # TODO the reason for shifting this towards the code generation side is that I want the possibility for a user to create its own cpp code for a robot
+
         subprocess.call(f"cd {directory}/rokin/Robots/{robot}/cpp; python setup.py develop", shell=True)
 
 
@@ -44,9 +46,6 @@ setup(
     url="https://github.com/scleronomic/rokin",
     include_package_data=True,
     packages=find_packages(),
-    package_data={
-        'build': ['*.so'],
-    },
 
     install_requires=['numpy',
                       # 'wzk @ git+https://github.com/scleronomic/WerkZeugKasten'
@@ -55,8 +54,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-
-    cmdclass={'install': CompileRobotsInstall,
-              # 'develop': CompileRobotsDevelop
-             }
+    # cmdclass={'install': CompileRobotsInstall,
+    #           # 'develop': CompileRobotsDevelop
+    #          }
 )
