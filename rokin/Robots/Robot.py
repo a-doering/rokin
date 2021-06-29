@@ -13,7 +13,7 @@ _cpp_order = 'c'
 _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
 
 
-def import_robot_cpp(robot, replace=False, verbose=3):
+def import_robot_cpp(robot, replace=False, verbose=1):
     try:
         return importlib.import_module(f'rokin.Robots.{robot.id}.cpp.{robot.id}')
 
