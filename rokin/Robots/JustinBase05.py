@@ -4,6 +4,7 @@ from rokin.Robots import MovingArm
 from rokin.Robots import Justin19
 from rokin.Robots.JustinBase03 import justinbase03_par as jbp
 
+
 _justin19 = Justin19()
 
 
