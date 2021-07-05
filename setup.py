@@ -2,22 +2,24 @@ import os
 import subprocess
 from setuptools import setup, find_packages
 from setuptools.command.install import install
-from setuptools.command.develop import develop
+# from setuptools.command.develop import develop
 
 
 with open("docs/README.md", "r") as fh:
     long_description = fh.read()
 
 
-def _run(self):
+def _run(self):  # noqa
     directory = os.path.split(__file__)[0]
     robot_list = ['Justin19', 'JustinArm07', 'JustinFinger03', 'JustinHand12', 'JustinHand12Cal']
     for robot in robot_list:
         for i in range(10):
             print()
         print(directory)
-        #print(os.listdir(f'/volume/USERSTORE/tenh_jo/Software/miniconda3/envs/py38test/lib/python3.8/site-packages/rokin/Robots/{robot}/cpp/'))
-        # TODO the reason for shifting this towards the code generation side is that I want the possibility for a user to create its own cpp code for a robot
+        # print(os.listdir(f'/volume/USERSTORE/tenh_jo/Software/miniconda3/envs/py38test/lib/python3.8/
+        # site-packages/rokin/Robots/{robot}/cpp/'))
+        # TODO the reason for shifting this towards the code generation side is that I want
+        #   the possibility for a user to create its own cpp code for a robot
 
         subprocess.call(f"cd {directory}/rokin/Robots/{robot}/cpp; python setup.py develop", shell=True)
 

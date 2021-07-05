@@ -17,3 +17,5 @@ from .JustinHand12.JustinHand12 import JustinHand12
 from .JustinHand12Cal.JustinHand12Cal import JustinHand12Cal
 from .JustinBase03.JustinBase03 import JustinBase03
 from .JustinBase05 import JustinBase05
+
+from .util import str2robot

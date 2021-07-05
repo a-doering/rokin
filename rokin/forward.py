@@ -113,8 +113,8 @@ def combine_frames_jac(j, d, robot):
 
 
 def get_torques(f,
-                torque_frame_idx, frame_frame_influence,
-                mass, mass_pos, mass_frame_idx,
+                torque_f_idx, frame_frame_influence,
+                mass, mass_pos, mass_f_idx,
                 gravity=None,
                 mode='f'):
     # Finding the torque about a given axis does not depend on the specific location on the axis where the torque acts
@@ -124,12 +124,12 @@ def get_torques(f,
     if gravity is None:
         gravity = np.array([[0., 0., -9.81]])  # matrix / s**2
     force = mass[np.newaxis, :, np.newaxis] * gravity[:, np.newaxis, :]
-    x_mass = frames2pos(f=f, f_idx=mass_frame_idx, x_rel=mass_pos)
+    x_mass = frames2pos(f=f, f_idx=mass_f_idx, x_rel=mass_pos)
 
-    torques_around_point = np.empty(shape + [len(torque_frame_idx), 3])
-    for i, idx_frame in enumerate(torque_frame_idx):
+    torques_around_point = np.empty(shape + [len(torque_f_idx), 3])
+    for i, idx_frame in enumerate(torque_f_idx):
         x_frame = f[..., idx_frame, :3, -1]
-        mass_bool = frame_frame_influence[idx_frame][mass_frame_idx]
+        mass_bool = frame_frame_influence[idx_frame][mass_f_idx]
         r = x_mass[..., mass_bool, :] - x_frame[..., np.newaxis, :]
         torques_around_point[..., i, :] = np.cross(r, force[:, mass_bool, :]).sum(axis=-2)
 
@@ -138,12 +138,12 @@ def get_torques(f,
         # Torque_x = (0_M_j - 0_P_(i-1)) x (m_j*g) @ x_(i-1)
         # Torque_y = (0_M_j - 0_P_(i-1)) x (m_j*g) @ y_(i-1)
         # Torque_z = (0_M_j - 0_P_i)     x (m_j*g) @ z_i
-        f_rot_xy = np.swapaxes(f[..., torque_frame_idx-1, :3, 0:2], -1, -2)
-        f_rot_z = np.swapaxes(f[..., torque_frame_idx, :3, 2:3], -1, -2)
+        f_rot_xy = np.swapaxes(f[..., torque_f_idx - 1, :3, 0:2], -1, -2)
+        f_rot_z = np.swapaxes(f[..., torque_f_idx, :3, 2:3], -1, -2)
         f_rot = np.concatenate((f_rot_xy, f_rot_z), axis=-2)
 
     elif mode == 'f':
-        f_rot = np.swapaxes(f[..., torque_frame_idx, :3, :3], -1, -2)
+        f_rot = np.swapaxes(f[..., torque_f_idx, :3, :3], -1, -2)
     else:
         raise ValueError(f"Unknown mode {mode}")
     torques_around_axes = (f_rot @ torques_around_point[..., np.newaxis])[..., 0]

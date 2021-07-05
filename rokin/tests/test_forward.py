@@ -2,7 +2,7 @@ import unittest
 import platform
 
 from rokin.forward import *
-from rokin.util import str2robot
+from rokin.Robots.util import str2robot
 
 from wzk import (numeric_derivative, tic, toc,
                  new_fig, save_fig,

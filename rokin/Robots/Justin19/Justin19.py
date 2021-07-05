@@ -65,9 +65,9 @@ class Justin19(Robot):
         self.masses_frame_idx = jtp.MASS_F_IDX
 
         # Meshes
-        self.meshes = 1
-        self.meshes_frames = 1
-        self.meshes_frames_idx = 1
+        self.meshes = jtp.MESHES
+        self.meshes_frames = jtp.MESHES_F
+        self.meshes_f_idx = jtp.MESHES_F_IDX
 
         self._cpp = import_robot_cpp(robot=self, replace=False)
 
