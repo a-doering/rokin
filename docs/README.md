@@ -41,6 +41,11 @@ f = robot.get_frames(q)  # Calculates homogeneous matrices [n_frames x 4 x 4]
                          # for each configuration in q 
 print(f[0, -1, :, :])
 ```
+# Visualization
+You still have to specify the directory of the meshes manually as 
+they are not included in the git repository.
+Ask the author if you need the files.
+`export ROKIN_MESH_DIR="your/path/to/the/meshes"`
 ```python
 # Visualize the robots
 import numpy as np

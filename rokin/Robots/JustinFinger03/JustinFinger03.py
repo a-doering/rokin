@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from wzk.spatial.transform import trans_rotvec2frame
 
@@ -61,7 +62,7 @@ class JustinFinger03(Robot):
                              []], dtype=object)
         self.capsules_f_idx, self.capsules_pos, self.capsules_rad = get_capsules_info(capsules=capsules)
 
-        mesh_folder = '/Users/jote/Documents/DLR/Data/URDFs/JustinHand12/hand_generator/resources/hand_model/binary_stl'
+        mesh_folder = os.environ.get("ROKIN_MESH_DIR") + '/JustinHand12/binary_stl'
         self.meshes = np.array([mesh_folder + '/finger_prox.stl',
                                 mesh_folder + '/finger_med.stl',
                                 mesh_folder + '/finger_dist_pill.stl'])

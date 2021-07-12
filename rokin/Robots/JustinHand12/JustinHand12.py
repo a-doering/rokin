@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from wzk.spatial import trans_rotvec2frame
 from wzk.numpy2 import tile_offset
@@ -71,7 +72,7 @@ class JustinHand12(Robot):
         self.capsules_f_idx = 1 + tile_offset(a=_finger03.capsules_f_idx, reps=4, offsets=_finger03.n_frames)
 
         # Meshes
-        mesh_folder = '/Users/jote/Documents/DLR/Data/URDFs/JustinHand12/hand_generator/resources/hand_model/binary_stl'
+        mesh_folder = os.environ.get("ROKIN_MESH_DIR") + '/JustinHand12/binary_stl'
         self.meshes = np.array([mesh_folder + '/full_hand_base.stl'] +
                                [mesh_folder + '/finger_base.stl',
                                 mesh_folder + '/finger_prox.stl',

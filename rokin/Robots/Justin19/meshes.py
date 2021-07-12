@@ -1,7 +1,9 @@
+import os
 import numpy as np
 from wzk.spatial import initialize_frames
 
-mesh_folder = '/Users/jote/Documents/DLR/Data/URDFs/Justin19/binary_stl'
+# mesh_folder = '/Users/jote/Documents/DLR/Data/URDFs/Justin19/binary_stl'
+mesh_folder = os.environ.get("ROKIN_MESH_DIR") + '/Justin19/binary_stl'
 
 # Base
 base_meshes = np.array([mesh_folder + '/mobile-body.stl',

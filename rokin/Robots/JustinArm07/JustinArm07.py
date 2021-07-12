@@ -1,7 +1,7 @@
 import numpy as np
 
-from rokin.Robots import Robot, import_robot_cpp
 from rokin import chain
+from rokin.Robots import Robot, import_robot_cpp
 from rokin.Robots.Justin19 import justin19_par as jpt
 from rokin.Robots.Justin19.spheres import ARM_SPHERES_F_IDX, ARM_SPHERES_POS, ARM_SPHERES_RAD
 from rokin.Robots.Justin19.meshes import right_meshes, right_meshes_f, right_meshes_f_idx
