@@ -14,16 +14,16 @@ _cpp_order = 'c'
 _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
 
 
-def import_robot_cpp(robot, replace=False,
+def import_robot_cpp(robot, replace=True,
                      verbose=1):
 
     try:
         return importlib.import_module(f'rokin.Robots.{robot.id}.cpp.{robot.id}')
 
     except ModuleNotFoundError:
-        pass
+        warnings.warn('ModuleNotFoundError')
     except ImportError:
-        pass
+        warnings.warn('ImportError')
 
     assert robot.n_dim == 3
     code_generation.generate_robot_cpp(robot=robot, replace=replace, verbose=verbose)
