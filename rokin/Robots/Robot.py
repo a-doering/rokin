@@ -20,8 +20,6 @@ def import_robot_cpp(robot,
 
     def fun(_replace):
         def __handle_replace(_replace):
-            # _replace_generate = False
-            # _replace_compile = False
 
             if isinstance(_replace, str):
                 if _replace == 'all' or _replace == 'force':
@@ -53,6 +51,7 @@ def import_robot_cpp(robot,
 
         replace_generate, replace_compile = __handle_replace(_replace=_replace)
         assert robot.n_dim == 3
+        print('replace', replace_compile)
         code_generation.generate_robot_cpp(robot=robot, replace=replace_generate, verbose=verbose)
         code_generation.compile_robot_cpp(robot=robot, replace=replace_compile, verbose=verbose)
         warnings.warn(f"Successful code generation. Rerun your code to use the C++ backend for {robot.id}.", Warning)
@@ -69,6 +68,7 @@ def import_robot_cpp(robot,
         except ImportError:
             warnings.warn('ImportError')
 
+        print('replace', replace)
         fun(_replace=replace)
 
 
