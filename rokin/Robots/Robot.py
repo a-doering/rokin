@@ -14,13 +14,47 @@ _cpp_order = 'c'
 _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
 
 
-def import_robot_cpp(robot, replace=True,
+def __handle_replace(replace):
+    # replace_generate = False
+    # replace_generate = False
+
+    if isinstance(replace, str):
+        if replace == 'all' or replace == 'force':
+            replace_generate = True
+            replace_compile = True
+
+        elif replace == 'generate':
+            replace_generate = True
+            replace_compile = False
+
+        elif replace == 'compile':
+            replace_generate = False
+            replace_compile = True
+
+        else:
+            raise ValueError(f"Unknown replace mode {replace}")
+    elif isinstance(replace, bool):
+        if replace:
+            replace_generate = True
+            replace_compile = True
+        else:
+            replace_generate = False
+            replace_compile = False
+    else:
+        raise ValueError(f"Unknown replace mode {replace}")
+
+    return replace_generate, replace_compile
+
+
+def import_robot_cpp(robot,
+                     replace='compile',  # 'all', 'generate', 'compile'
                      verbose=1):
 
     def fun():
+        replace_generate, replace_compile = __handle_replace(replace=replace)
         assert robot.n_dim == 3
-        code_generation.generate_robot_cpp(robot=robot, replace=replace, verbose=verbose)
-        code_generation.compile_robot_cpp(robot=robot, replace=replace, verbose=verbose)
+        code_generation.generate_robot_cpp(robot=robot, replace=replace_generate, verbose=verbose)
+        code_generation.compile_robot_cpp(robot=robot, replace=replace_compile, verbose=verbose)
         warnings.warn(f"Successful code generation. Rerun your code to use the C++ backend for {robot.id}.", Warning)
 
     if isinstance(replace, str) and replace == 'force':

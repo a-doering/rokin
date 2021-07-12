@@ -62,7 +62,7 @@ def generate_robot_cpp(robot, dh_mode='fix', replace=True,
                                      f'{robot.id}.h': robot_h,
                                      f'{robot.id}.cpp': robot_cpp})
     if verbose > 0:
-        print(f"Successfully generated code for the robot {_robot.id} in the directory {directory}")
+        print(f"Successfully generated code for the robot {robot.id} in the directory {directory}")
 
 
 def compile_robot_cpp(robot, replace=False, verbose=0):
