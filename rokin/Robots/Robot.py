@@ -1,4 +1,5 @@
 import importlib
+import warnings
 
 import numpy as np
 
@@ -13,7 +14,9 @@ _cpp_order = 'c'
 _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
 
 
-def import_robot_cpp(robot, replace=False, verbose=1):
+def import_robot_cpp(robot, replace=False,
+                     verbose=1):
+
     try:
         return importlib.import_module(f'rokin.Robots.{robot.id}.cpp.{robot.id}')
 
@@ -25,7 +28,7 @@ def import_robot_cpp(robot, replace=False, verbose=1):
     assert robot.n_dim == 3
     code_generation.generate_robot_cpp(robot=robot, replace=replace, verbose=verbose)
     code_generation.compile_robot_cpp(robot=robot, replace=replace, verbose=verbose)
-    raise UserWarning(f"Successful code generation. Rerun your code to use the C++ backend for {robot.id}.")
+    warnings.warn(f"Successful code generation. Rerun your code to use the C++ backend for {robot.id}.", Warning)
 
 
 class Robot(object):

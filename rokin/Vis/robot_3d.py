@@ -103,7 +103,7 @@ def justin_arm_07_interactive(show_frames=None, additional_frames=None,
     idx[4:7, 0] = np.arange(3)  # wrist
     idx[4:7, 1] = 0
 
-    viz = RobotViz(robot=robot, q=q, show_frames=show_frames, additional_frames=additional_frames, frames_scale=0.05,
+    viz = RobotViz(robot=robot, q=q, show_frames=show_frames, additional_frames=additional_frames, frames_scale=0.1,
                    mode=mode, **kwargs)
     viz.add_multiple_slider_widgets(grid=grid, idx=idx, names=names)
     viz.p.show()
@@ -234,6 +234,7 @@ def justin_19_interactive(start='getready', show_frames=None, additional_frames=
 
 def robot_path_interactive(q, robot,
                            mode='spheres',
+                           frames_scale=0.1,
                            obstacle_img=None, voxel_size=None, img_mode='voxel',
                            show_frames=None,
                            additional_frames=None,
@@ -252,9 +253,9 @@ def robot_path_interactive(q, robot,
         raise ValueError
 
     if additional_frames is not None:
-        plot_frames(p=p, f=additional_frames, scale=1 / 3)
+        plot_frames(p=p, f=additional_frames, scale=frames_scale)
     if show_frames is not None:
-        h_frames = plot_frames(p=p, f=f[show_frames], scale=1/3)
+        h_frames = plot_frames(p=p, f=f[show_frames], scale=frames_scale)
 
     def update(t):
         t = int(np.round(t))
@@ -268,7 +269,7 @@ def robot_path_interactive(q, robot,
             raise ValueError
 
         if show_frames is not None:
-            plot_frames(h=h_frames, f=ff[show_frames], scale=1/3)
+            plot_frames(h=h_frames, f=ff[show_frames], scale=frames_scale)
 
     s = p.add_slider_widget(callback=update, value=0, rng=(0, n_waypoints-1), title='time steps', fmt="%.0f")
     add_key_slider_widget(p=p, slider=s, callback=update, step=1)

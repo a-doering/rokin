@@ -41,6 +41,26 @@ f = robot.get_frames(q)  # Calculates homogeneous matrices [n_frames x 4 x 4]
                          # for each configuration in q 
 print(f[0, -1, :, :])
 ```
+```python
+# Visualize the robots
+import numpy as np
+from rokin.Robots import JustinFinger03
+from rokin.Vis.robot_3d import justin_arm_07_interactive, robot_path_interactive
+
+# play with all the sliders to get a feeling for the robot kinematic 
+justin_arm_07_interactive(show_frames=[7],  # frames of the robots to plot
+                          additional_frames=[np.eye(4)])  # fixed frames to plot 
+
+# Pyvista blocks the execution as long as a window is open, so close the window to continue the code
+
+robot = JustinFinger03()
+q = robot.sample_q(50)
+robot_path_interactive(q=q, robot=robot, 
+                       mode='meshes',  # 'spheres as alternative'
+                       show_frames=[5],
+                       frames_scale=0.03)  # size of the frames [m]
+```
+![PyVista Example for JustinArm07](pyvista_example.jpeg)
 
 # Load and use your own robot
 * TODO: load urdf file and create the respective C++ files via the python setup scripts
