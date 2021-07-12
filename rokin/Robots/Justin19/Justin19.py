@@ -69,7 +69,7 @@ class Justin19(Robot):
         self.meshes_frames = jtp.MESHES_F
         self.meshes_f_idx = jtp.MESHES_F_IDX
 
-        self._cpp = import_robot_cpp(robot=self, replace=False)
+        self._cpp = import_robot_cpp(robot=self
 
     def sample_q(self, shape=None):
         q = super().sample_q(shape=shape)

@@ -39,4 +39,4 @@ class JustinArm07(Robot):
         self.meshes_frames = right_meshes_f
         self.meshes_f_idx = right_meshes_f_idx - 1
 
-        self._cpp = import_robot_cpp(robot=self, replace=False)
+        self._cpp = import_robot_cpp(robot=self)

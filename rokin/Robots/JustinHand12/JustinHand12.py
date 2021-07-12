@@ -85,6 +85,6 @@ class JustinHand12(Robot):
         self.meshes_f_idx = np.concatenate([[0], 1 + tile_offset(a=np.array([0, 2, 3, 4]), reps=4,
                                                                  offsets=_finger03.n_frames)])
 
-        self._cpp = import_robot_cpp(robot=self, replace=False)
+        self._cpp = import_robot_cpp(robot=self)
 
 

@@ -42,4 +42,4 @@ class JustinHand12Cal(JustinHand12):
                                          [ 0.8372369 ,  0.31631313,  0.44607216,  0.10283151],
                                          [ 0.        ,  0.        ,  0.        ,  1.        ]]])
 
-        self._cpp = import_robot_cpp(robot=self, replace=False)
+        self._cpp = import_robot_cpp(robot=self)

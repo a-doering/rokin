@@ -17,18 +17,25 @@ _cpp_dtype = 'f8'  # 'f4'-> float, 'f8' -> double
 def import_robot_cpp(robot, replace=True,
                      verbose=1):
 
-    try:
-        return importlib.import_module(f'rokin.Robots.{robot.id}.cpp.{robot.id}')
+    def fun():
+        assert robot.n_dim == 3
+        code_generation.generate_robot_cpp(robot=robot, replace=replace, verbose=verbose)
+        code_generation.compile_robot_cpp(robot=robot, replace=replace, verbose=verbose)
+        warnings.warn(f"Successful code generation. Rerun your code to use the C++ backend for {robot.id}.", Warning)
 
-    except ModuleNotFoundError:
-        warnings.warn('ModuleNotFoundError')
-    except ImportError:
-        warnings.warn('ImportError')
+    if isinstance(replace, str) and replace == 'force':
+        fun()
 
-    assert robot.n_dim == 3
-    code_generation.generate_robot_cpp(robot=robot, replace=replace, verbose=verbose)
-    code_generation.compile_robot_cpp(robot=robot, replace=replace, verbose=verbose)
-    warnings.warn(f"Successful code generation. Rerun your code to use the C++ backend for {robot.id}.", Warning)
+    else:
+        try:
+            return importlib.import_module(f'rokin.Robots.{robot.id}.cpp.{robot.id}')
+
+        except ModuleNotFoundError:
+            warnings.warn('ModuleNotFoundError')
+        except ImportError:
+            warnings.warn('ImportError')
+
+        fun()
 
 
 class Robot(object):

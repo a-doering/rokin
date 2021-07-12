@@ -29,4 +29,4 @@ class Dummy01(Robot):
         self.coupled_passive_joints = None
         self.coupled_passive_joints_jac = None
 
-        self._cpp = import_robot_cpp(robot=self, replace=False)
+        self._cpp = import_robot_cpp(robot=self)
