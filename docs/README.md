@@ -70,4 +70,3 @@ robot_path_interactive(q=q, robot=robot,
 * prismatic joints
 * coupled joints
 * custom joints
-* visualize the robot with pyvista
