@@ -67,6 +67,7 @@ def generate_robot_cpp(robot, dh_mode='fix', replace=True,
 
 def compile_robot_cpp(robot, replace=False, verbose=0):
     directory = get_directory(robot=robot)
+    print('replace', replace)
     if not replace and check_old_files(directory=directory, files=[f"{robot.id}.egg-info", "build"]):
         if verbose > 0:
             print(f"Abort code compiling:\n "
