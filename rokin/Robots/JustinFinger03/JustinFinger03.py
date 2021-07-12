@@ -74,4 +74,4 @@ class JustinFinger03(Robot):
 
         self.meshes_f_idx = np.array([2, 3, 4])
 
-        self._cpp = import_robot_cpp(robot=self, replace=False)
+        self._cpp = import_robot_cpp(robot=self)
