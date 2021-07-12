@@ -22,6 +22,10 @@
 `pip install git+https://github.com/scleronomic/rokin`
 
 
+Note that no version is specified yet.
+For upgrading / reinstalling the recommended procedure is to first uninstall rokin manually via<br/>
+`pip uninstall rokin`
+
 # Example with existing robots
 
 ```python
@@ -43,7 +47,7 @@ print(f[0, -1, :, :])
 ```
 # Visualization
 You still have to specify the directory of the meshes manually as 
-they are not included in the git repository.
+they are not included in this git repository.
 Ask the author if you need the files.
 `export ROKIN_MESH_DIR="your/path/to/the/meshes"`
 ```python
@@ -61,9 +65,12 @@ justin_arm_07_interactive(show_frames=[7],  # frames of the robots to plot
 robot = JustinFinger03()
 q = robot.sample_q(50)
 robot_path_interactive(q=q, robot=robot, 
-                       mode='meshes',  # 'spheres as alternative'
+                       mode='meshes',  # 'spheres' as alternative
                        show_frames=[5],
                        frames_scale=0.03)  # size of the frames [m]
+
+# you can also directly generate a gif
+robot_path_interactive(q=q, robot=robot, gif='robot.gif')
 ```
 ![PyVista Example for JustinArm07](pyvista_example.jpeg)
 

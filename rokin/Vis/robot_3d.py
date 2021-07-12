@@ -238,11 +238,19 @@ def robot_path_interactive(q, robot,
                            obstacle_img=None, voxel_size=None, img_mode='voxel',
                            show_frames=None,
                            additional_frames=None,
-                           color=None, alpha=1.):
+                           color=None, alpha=1.,
+                           gif=False):
 
     n_waypoints, n_joints = q.shape
     f, x = robot.get_x_spheres(q=q[0], return_frames2=True)
-    p = pv.Plotter()
+
+    if gif:
+        p = pv.Plotter(off_screen=True)
+        p.open_gif(gif)
+
+    else:
+        p = pv.Plotter()
+
     plot_bool_vol(p=p, img=obstacle_img, voxel_size=voxel_size, mode=img_mode, color='black')
 
     if mode == 'spheres':
@@ -271,9 +279,17 @@ def robot_path_interactive(q, robot,
         if show_frames is not None:
             plot_frames(h=h_frames, f=ff[show_frames], scale=frames_scale)
 
-    s = p.add_slider_widget(callback=update, value=0, rng=(0, n_waypoints-1), title='time steps', fmt="%.0f")
-    add_key_slider_widget(p=p, slider=s, callback=update, step=1)
-    p.show()
+    if gif:
+        for tt in range(n_waypoints):
+            update(tt)
+            p.render()
+            p.write_frame()
+
+    else:
+        s = p.add_slider_widget(callback=update, value=0, rng=(0, n_waypoints-1), title='time steps', fmt="%.0f")
+        add_key_slider_widget(p=p, slider=s, callback=update, step=1)
+        p.show()
+        return p
 
 
 if __name__ == '__main__':
