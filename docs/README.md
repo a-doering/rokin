@@ -16,9 +16,16 @@
       `conda install eigen`
       
    2. or specify the location of your version<br/>
-      `export EIGEN_INCLUDE_DIR="your/path/to/eigen3"`
+      `export EIGEN_INCLUDE_DIR="your/path/to/eigen3/"`
 
-2. install rokin<br/>
+2. install swig<br/>
+`sudo apt install swig`
+3. you will also need a fortran compiler for pyopt, you can check if you have one installed with<br/>
+     `f2py -c --help-fcompiler`
+
+   if no compilers are found, install one<br/> `sudo apt install gfortran`
+
+4. install rokin<br/>
 `pip install git+https://github.com/scleronomic/rokin`
 
 
@@ -48,8 +55,8 @@ print(f[0, -1, :, :])
 # Visualization
 You still have to specify the directory of the meshes manually as 
 they are not included in this git repository.
-Ask the author if you need the files.
-`export ROKIN_MESH_DIR="your/path/to/the/meshes"`
+Ask the author if you need the files. If you do not use meshes you will still need to specify some path, or you will get an error.
+`export ROKIN_MESH_DIR="your/path/to/the/meshes/"`
 ```python
 # Visualize the robots
 import numpy as np
